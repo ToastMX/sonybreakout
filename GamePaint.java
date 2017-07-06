@@ -13,7 +13,6 @@ public class GamePaint extends JPanel{
 	protected void paintComponent(Graphics g){
 		super.paintComponent(g);
 
-		g.setColor(Color.black);
 		// Rectangles
 		for(int y = 0; y < game.blocks.length; y++){
 			for(int x = 0; x < game.blocks[y].length; x++){

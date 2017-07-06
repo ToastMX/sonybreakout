@@ -74,7 +74,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		while (true) {
 
 
-			ball.move();
+			//ball.move();
 			ballFrameCollision();
 			ballBarCollision();
 			ballBlockCollision();
