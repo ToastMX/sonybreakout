@@ -19,6 +19,7 @@ public class Ball {
 		east = new Point (xPos + xSize, yPos + ySize/2);
 		south = new Point(xPos + xSize/2, yPos + ySize);
 		west = new Point(xPos, yPos + ySize/2);
+// Paule Antwort : Hallo 
 	}
 
 	public void move() {			
