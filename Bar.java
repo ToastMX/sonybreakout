@@ -19,17 +19,18 @@ public class Bar {
 	}
 
 	public void move(){
-		int mx = 0;
-		if (right)
-			mx = 5;
-		else if (left)
-			mx = -5;
-
-		if (upleft.x <= 0)
-			mx = 0;
-		if ((upleft.x + xSize) >= gamexSize)
-			mx = 0;
-		Point.multiMove(mx, 0, upleft, upright, downleft, downright);
+		int vx = 0;
+		if (right){
+			vx = 5;
+			if ((upleft.x + xSize) >= gamexSize)
+				vx = 0;
+		}
+		else if (left){
+			vx = -5;
+			if (upleft.x <= 0)
+				vx = 0;
+		}
+		Point.multiMove(vx, 0, upleft, upright, downleft, downright);
 		xPos = upleft.x;
 	}
 
