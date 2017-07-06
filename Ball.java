@@ -1,4 +1,5 @@
 public class Ball {
+	//Test Push
 
 	int xPos, yPos, xSize, ySize, Dir = 1, vx, vy;
 	// Himmelsrichtungen Punkte Ball
