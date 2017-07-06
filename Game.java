@@ -74,7 +74,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		while (true) {
 
 
-			//ball.move();
+			ball.move();
 			ballFrameCollision();
 			ballBarCollision();
 			ballBlockCollision();
@@ -119,9 +119,9 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	}
 
 	public void ballBarCollision(){
-
-		if (bar.x() < ball.east.x
-			& bar.upright.x > ball.west.x 
+		// collision on top
+		if (bar.upleft.x < ball.south.x
+			& bar.upright.x > ball.south.x 
 			& bar.y() <= ball.south.y 
 			& bar.y() + 5 >= ball.south.y){
 			ball.vy = Math.abs(ball.vy) * -1;
@@ -134,8 +134,27 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 				ball.vx += 1;
 			}
 		}
-
-
+		
+		// collison left
+		else if (bar.upleft.x < ball.east.x
+			& bar.upright.x > ball.east.x 
+			& bar.y() <= ball.east.y 
+			& bar.downleft.y >= ball.east.y){
+			
+			ball.vy = Math.abs(ball.vy) * -1;
+			ball.vx = Math.abs(ball.vx) * -1;
+			
+		}
+		// collison right
+		else if (bar.upleft.x < ball.west.x
+			& bar.upright.x > ball.west.x 
+			& bar.y() <= ball.west.y 
+			& bar.downleft.y >= ball.west.y){
+			
+			ball.vy = Math.abs(ball.vy) * -1;
+			ball.vx = Math.abs(ball.vx);
+			
+		}
 	}
 
 	public void ballBlockCollision(){
