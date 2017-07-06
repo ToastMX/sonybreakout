@@ -13,9 +13,17 @@ public class Bar {
 		xSize = 100;
 		ySize = 5;
 		upleft = new Point(startXPos, startYPos);
-		upright = new Point(startXPos, startYPos + xSize);
-		downleft = new Point(startXPos + ySize, startYPos);
-		downright = new Point(startXPos + ySize, startYPos + xSize);
+		upright = new Point(startXPos + xSize, startYPos );
+		downleft = new Point(startXPos, startYPos+ ySize);
+		downright = new Point(startXPos + xSize, startYPos + ySize);
+	}
+	
+	public int x(){
+		return upleft.x;
+	}
+	
+	public int y(){
+		return upleft.y;
 	}
 
 	public void move(){
