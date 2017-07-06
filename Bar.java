@@ -18,11 +18,11 @@ public class Bar {
 		downleft = new Point(startXPos, startYPos+ ySize);
 		downright = new Point(startXPos + xSize, startYPos + ySize);
 	}
-	
+
 	public int x(){
 		return upleft.x;
 	}
-	
+
 	public int y(){
 		return upleft.y;
 	}

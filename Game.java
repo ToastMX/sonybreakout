@@ -51,14 +51,24 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		gameOver.setVisible(false);
 		gamePaint.add(gameOver);
 
-		restart = new JButton("Neustart");
+		restart = new JButton("Restart");
 		restart.setVisible(false);
 		gamePaint.add(restart);
 		restart.addActionListener(this);
 
-		this.setFocusable(true);
+		KeyListener spaceRestart = new KeyListener(){
+			public void keyPressed(KeyEvent ke) {
+				if(ke.getKeyCode() == KeyEvent.VK_SPACE & restart.isVisible()){
+					restart.doClick();
+				}
+			}
+			public void keyReleased(KeyEvent ke) {}
+			public void keyTyped(KeyEvent ke) {}
+		};
+		addKeyListener(spaceRestart);
+		
 		addKeyListener(this);
-
+		this.setFocusable(true);
 		ball = new Ball(xSize/2, ySize - 140);
 		bar = new Bar(xSize/2, ySize - 60, xSize);
 
@@ -79,12 +89,12 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 			ballBarCollision();
 			ballBlockCollision();
 			bar.move();
-			
-//			System.out.println("ballxPos = " + ball.xPos + ", ballyPos = " + ball.yPos);
-//			System.out.println("N: " + ball.north.toString());
-//			System.out.println("E: " + ball.east.toString());
-//			System.out.println("S: " + ball.south.toString());
-//			System.out.println("W: " + ball.west.toString());
+
+			//			System.out.println("ballxPos = " + ball.xPos + ", ballyPos = " + ball.yPos);
+			//			System.out.println("N: " + ball.north.toString());
+			//			System.out.println("E: " + ball.east.toString());
+			//			System.out.println("S: " + ball.south.toString());
+			//			System.out.println("W: " + ball.west.toString());
 
 			try {
 				gamePaint.repaint();
@@ -121,11 +131,11 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	public void ballBarCollision(){
 
 		if (bar.x() < ball.east.x
-			& bar.upright.x > ball.west.x 
-			& bar.y() <= ball.south.y 
-			& bar.y() + 5 >= ball.south.y){
+				& bar.upright.x > ball.west.x 
+				& bar.y() <= ball.south.y 
+				& bar.y() + 5 >= ball.south.y){
 			ball.vy = Math.abs(ball.vy) * -1;
-			
+
 			//SPINGAME
 			if(bar.left){
 				ball.vx -= 1;
