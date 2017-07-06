@@ -11,7 +11,7 @@ public class Bar {
 		this.gamexSize = gamexSize;
 		xPos = startXPos;
 		yPos = startYPos;
-		xSize = 100;
+		xSize = 180;
 		ySize = 5;
 		upleft = new Point(startXPos, startYPos);
 		upright = new Point(startXPos + xSize, startYPos );

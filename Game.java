@@ -19,7 +19,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	Thread Thread;
 
 	int xSize = 1300;
-	int ySize = xSize / 2;
+	int ySize = 800;
 	int xLoc = 300;
 	int yLoc = 50;
 
