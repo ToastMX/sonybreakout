@@ -98,7 +98,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 			try {
 				gamePaint.repaint();
-				Thread.sleep(30); // Ball Speed
+				Thread.sleep(7); // Ball Speed
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
