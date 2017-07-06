@@ -98,14 +98,13 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 			try {
 				gamePaint.repaint();
-				Thread.sleep(5); // Ball Speed
+				Thread.sleep(30); // Ball Speed
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-
-	//Ball Collision
+	
 	public void ballFrameCollision(){
 
 		if((ball.east.x) >= xSize){
@@ -113,7 +112,10 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		}else if (ball.west.x < 0){
 			ball.vx = -1 * ball.vx;
 		}
-		if((ball.south.y) > ySize){
+		// TODO: -36 weil ich glaube ySize ist die größe 
+		// vom ganzen fenster. AUf jeden stimmt es so bei mir.
+		if(ball.south.y > ySize - 36){
+			// Game over
 			ball.vy = 0;
 			ball.vx = 0;
 			gameOver.setVisible(true);
@@ -146,7 +148,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 			}
 		}
 		
-		// collison left
+		// collison left egde
 		else if (bar.upleft.x < ball.east.x
 			& bar.upright.x > ball.east.x 
 			& bar.y() <= ball.east.y 
@@ -156,7 +158,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 			ball.vx = Math.abs(ball.vx) * -1;
 			
 		}
-		// collison right
+		// collison right egde
 		else if (bar.upleft.x < ball.west.x
 			& bar.upright.x > ball.west.x 
 			& bar.y() <= ball.west.y 
