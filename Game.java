@@ -120,12 +120,13 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 	public void ballBarCollision(){
 
-		if (bar.x() < ball.xPos 
-			& bar.upright.x > ball.xPos 
-			& bar.y() <= ball.yPos + ball.ySize 
-			& bar.y() >= ball.ySize + ball.xSize + 5){
+		if (bar.x() < ball.east.x
+			& bar.upright.x > ball.west.x 
+			& bar.y() <= ball.south.y 
+			& bar.y() + 5 >= ball.south.y){
 			ball.vy = Math.abs(ball.vy) * -1;
-			//ToDo Bugfix
+			
+			//SPINGAME
 			if(bar.left){
 				ball.vx -= 1;
 			}
