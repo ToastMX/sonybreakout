@@ -1,10 +1,10 @@
 public class Bar {
 
-	int xPos, yPos, xSize, ySize, vx;
+	int xPos, yPos, xSize, ySize;
 	boolean right, left, collidewithbar;
 	int gamexSize;
 	Point upleft, upright, downleft, downright;
-	
+	int vx = 5;
 
 	public Bar(int startXPos, int startYPos, int gamexSize){
 
@@ -13,7 +13,6 @@ public class Bar {
 		yPos = startYPos;
 		xSize = 100;
 		ySize = 5;
-		vx = 5;
 		upleft = new Point(startXPos, startYPos);
 		upright = new Point(startXPos + xSize, startYPos );
 		downleft = new Point(startXPos, startYPos+ ySize);
@@ -31,12 +30,12 @@ public class Bar {
 	public void move(){
 		int vx = 0;
 		if (right){
-			vx = 5;
+			vx = this.vx;
 			if (upright.x >= gamexSize)
 				vx = 0;
 		}
 		else if (left){
-			vx = -5;
+			vx = this.vx * -1;
 			if (upleft.x <= 0)
 				vx = 0;
 		}
