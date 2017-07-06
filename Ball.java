@@ -13,7 +13,8 @@ public class Ball {
 		ySize = 25;
 		vx = 3;
 		vy = -3;
-
+		
+// every side of the ball:
 		north = new Point(xPos + xSize/2, yPos);
 		east = new Point (xPos + xSize, yPos + ySize/2);
 		south = new Point(xPos + xSize/2, yPos + ySize);
