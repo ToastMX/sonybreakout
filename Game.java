@@ -59,7 +59,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		this.setFocusable(true);
 		addKeyListener(this);
 
-		ball = new Ball(xSize/2, ySize - 60);
+		ball = new Ball(xSize/2, ySize - 140);
 		bar = new Bar(xSize/2, ySize - 60, xSize);
 
 		blocks = new Block[3][14];
@@ -98,12 +98,12 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	//Ball Collision
 	public void ballFrameCollision(){
 
-		if((ball.xPos + ball.xSize) >= xSize){
+		if((ball.east.x) >= xSize){
 			ball.vx = -1 * ball.vx;
-		}else if (ball.xPos < 0){
+		}else if (ball.west.x < 0){
 			ball.vx = -1 * ball.vx;
 		}
-		if((ball.yPos + ball.ySize) > ySize - 35){
+		if((ball.south.y) > bar.downleft.y){
 			ball.vy = 0;
 			ball.vx = 0;
 			gameOver.setVisible(true);
@@ -158,7 +158,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	// Restart
 	public void actionPerformed(ActionEvent e) {
 
-		ball = new Ball(xSize/2, ySize - 60);
+		ball = new Ball(xSize/2, ySize - 140);
 		bar = new Bar(xSize/2, ySize - 60, xSize);
 
 		blocks = new Block[3][14];
