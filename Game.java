@@ -29,8 +29,8 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 	int blockxStart = 100;
 	int blockyStart = 100;
-	int blockxSize = 45;
-	int blockySize = 20;
+	int blockxSize = 35;
+	int blockySize = 15;
 	int blockDistance = 6;
 
 	public Game(String username) {
@@ -73,7 +73,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		ball = new Ball(xSize/2, ySize - 140);
 		bar = new Bar(xSize/2, ySize - 60, xSize);
 
-		blocks = new Block[6][20];
+		blocks = new Block[20][25];
 		for(int y=0; y<=blocks.length-1; y++){
 			for(int x=0; x<=blocks[y].length-1; x++){
 				blocks[y][x] = new Block(blockxStart + x*blockxSize + x*blockDistance,
