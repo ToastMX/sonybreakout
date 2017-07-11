@@ -94,6 +94,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos - 26));
 
 		blocks = new Block[blockrows][blockcolumns];
+
 		for(int y=0; y<=blocks.length-1; y++){
 			for(int x=0; x<=blocks[y].length-1; x++){
 				blocks[y][x] = new Block(blockxStart + x*blockxSize + x*blockDistance,
@@ -120,6 +121,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	}
 
 	public void run() {
+
 		int i = 0;
 		while (true) {
 
@@ -252,22 +254,22 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 		// from bottom 
 		if (north != null && north.state != 0){
-			north.state = 0;
+			north.state -= 1;
 			ball.vy = Math.abs(ball.vy);
 		}
 		// from top 
 		else if (south != null && south.state != 0){
-			south.state = 0;
+			south.state -= 1;
 			ball.vy = Math.abs(ball.vy) * -1;
 		}
 		// from right
 		else if (west != null && west.state != 0){
-			west.state = 0;
+			west.state -= 1;
 			ball.vx = Math.abs(ball.vy);
 		}
 		// from left
 		else if (east != null && east.state != 0){
-			east.state = 0;
+			east.state -= 1;
 			ball.vx = Math.abs(ball.vx) * -1;
 		}
 	}

@@ -29,6 +29,7 @@ public class Bar {
 
 	public void move(){
 		int vx = 0;
+		
 		if (right){
 			vx = this.vx;
 			if (upright.x >= gamexSize + xSize/2){
