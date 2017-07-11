@@ -85,17 +85,17 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		
 		// different modi to position blocks
 		// TODO
-		if (positionLvl == "center") {
-			int blockxStart = blockxSize;
-			int blockDistance = 6;
-		}
-		else if (positionLvl == "max"){
-			int blockxStart = 100;
-			int blockyStart = 100;
-			int blockxSize = 45;
-			int blockySize = 20;
-			int blockDistance = 6;
-		}
+//		if (positionLvl == "center") {
+//			int blockxStart = blockxSize;
+//			int blockDistance = 6;
+//		}
+//		else if (positionLvl == "max"){
+//			int blockxStart = 100;
+//			int blockyStart = 100;
+//			int blockxSize = 45;
+//			int blockySize = 20;
+//			int blockDistance = 6;
+//		}
 		
 	}
 
@@ -244,10 +244,8 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		}catch(ArrayIndexOutOfBoundsException aioob){
 			return null;
 		}
-
-
-
 	}
+	
 	// Restart
 	public void actionPerformed(ActionEvent e) {
 

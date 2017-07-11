@@ -1,14 +1,11 @@
 public class Ball {
 	//Test Push
 
-<<<<<<< HEAD
+
 	int xPos, yPos, xSize, ySize, Dir = 1, vx, vy, vxst = 2, vyst = 4;
 												 //st = standard
-=======
-	int xPos, yPos, xSize, ySize, Dir = 1, vx, vy;
 	int xTo, yTo; // target values for changeSize Methode
 	
->>>>>>> 0fd3dd41e96fbc99c27407407322341149a36335
 	// Himmelsrichtungen Punkte Ball
 	Point north, east, south, west;
 	
