@@ -214,22 +214,22 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 		// from bottom 
 		if (north != null && north.state != 0){
-			north.state = 0;
+			north.state -= 1;
 			ball.vy = Math.abs(ball.vy);
 		}
 		// from top 
 		else if (south != null && south.state != 0){
-			south.state = 0;
+			south.state -= 1;
 			ball.vy = Math.abs(ball.vy) * -1;
 		}
 		// from right
 		else if (west != null && west.state != 0){
-			west.state = 0;
+			west.state -= 1;
 			ball.vx = Math.abs(ball.vy);
 		}
 		// from left
 		else if (east != null && east.state != 0){
-			east.state = 0;
+			east.state -= 1;
 			ball.vx = Math.abs(ball.vx) * -1;
 		}
 	}

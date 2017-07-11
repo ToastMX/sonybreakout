@@ -20,8 +20,16 @@ public class GamePaint extends JPanel{
 
 				if (game.blocks[y][x].state == 0)
 					continue;
-
+				else if (game.blocks[y][x].state == 1)
+					g.setColor(Color.BLACK);
+				else if (game.blocks[y][x].state == 2)
+					g.setColor(Color.RED);
+				else if (game.blocks[y][x].state == 3)
+					g.setColor(Color.YELLOW); 
+				
 				g.fillRect(game.blocks[y][x].xPos, game.blocks[y][x].yPos, game.blocks[y][x].xSize, game.blocks[y][x].ySize);
+				
+				g.setColor(Color.BLACK);
 			}
 		}
 
