@@ -4,8 +4,7 @@ public class Bar {
 	boolean right, left, collidewithbar;
 	int gamexSize;
 	Point upleft, upright, downleft, downright;
-	int vx = 1;
-	float vvx = 1;
+	int vx = 4;
 
 	public Bar(int startXPos, int startYPos, int gamexSize){
 
