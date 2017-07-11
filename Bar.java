@@ -31,19 +31,20 @@ public class Bar {
 		int vx = 0;
 		if (right){
 			vx = this.vx;
-			if (upright.x >= gamexSize)
+			if (upright.x >= gamexSize + xSize/2){
 				vx = 0;
+			}
 		}
 		else if (left){
 			vx = this.vx * -1;
-			if (upleft.x <= 0)
+			if (upleft.x <= 0 - xSize/2){
 				vx = 0;
+			}
 		}
 		Point.multiMove(vx, 0, upleft, upright, downleft, downright);
-		if (upright.x > gamexSize){
-			Point.multiMove(gamexSize - upright.x, 0, upleft, upright, downleft, downright);
-			System.out.println(upright.x);
-		}
+//		if (upright.x > gamexSize){
+//			Point.multiMove(gamexSize - upright.x, 0, upleft, upright, downleft, downright);
+//		}
 		xPos = upleft.x;
 	}
 

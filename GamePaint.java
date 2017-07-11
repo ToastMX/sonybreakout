@@ -4,7 +4,7 @@ import javax.swing.JPanel;
 public class GamePaint extends JPanel{
 
 	Game game;
-	
+
 
 	public GamePaint(Game game){
 		this.game = game;
