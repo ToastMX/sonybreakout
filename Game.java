@@ -100,18 +100,23 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	}
 
 	public void run() {
+		int i = 0;
 		while (true) {
 
-
-			ball.move();
-			bar.move();
-			ballFrameCollision();
-			ballBarCollision();
-			ballBlockCollision();
+			i++;
+			if (i % 3 == 0){
+				bar.move();				
+			}
+			if  (i % 5 == 0){
+				ball.move();
+				ballFrameCollision();
+				ballBarCollision();
+				ballBlockCollision();
+			}
 
 			try {
 				gamePaint.repaint();
-				Thread.sleep(7); 
+				Thread.sleep(1); 
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -150,10 +155,10 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 
 			if(ball.south.x < bar.xPos + 1*bar.xSize/7)
-				ball.vx = - (int) (ball.vxst * 3);
+				ball.vx = - (int) (ball.vxst * 2);
 
 			else if(ball.south.x < bar.xPos + 2*bar.xSize/7)
-				ball.vx = - (int) (ball.vxst * 2);
+				ball.vx = - (int) (ball.vxst * 1.5);
 
 			else if(ball.south.x < bar.xPos + 3*bar.xSize/7)
 				ball.vx = - (int) (ball.vxst * 1);
@@ -165,21 +170,18 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 				ball.vx =  (int) (ball.vxst * 1);
 
 			else if(ball.south.x < bar.xPos + 6*bar.xSize/7)
-				ball.vx =  (int) (ball.vxst * 2);
+				ball.vx =  (int) (ball.vxst * 1.5);
 
 			else if(ball.south.x < bar.xPos + 7*bar.xSize/7)
-				ball.vx =  (int) (ball.vxst * 3);
+				ball.vx =  (int) (ball.vxst * 2);
 
-
-
-
-					//SPINGAME
-					//			if(bar.left){
-					//				ball.vx -= 1;
-					//			}
-					//			if(bar.right){
-					//				ball.vx += 1;
-					//			}
+			//SPINGAME
+			//			if(bar.left){
+			//				ball.vx -= 1;
+			//			}
+			//			if(bar.right){
+			//				ball.vx += 1;
+			//			}
 		}	
 
 		// collison left egde
@@ -188,8 +190,8 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 				& bar.y() <= ball.east.y 
 				& bar.downleft.y >= ball.east.y){
 
-			ball.vy = Math.abs(ball.vy) * -1;
-			ball.vx = Math.abs(ball.vx) * -1;
+			ball.vy = (ball.vy) * -1;
+			ball.vx = (ball.vxst) * -3;
 		}
 		// collison right egde
 		else if (bar.upleft.x < ball.west.x
@@ -197,8 +199,8 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 				& bar.y() <= ball.west.y 
 				& bar.downleft.y >= ball.west.y){
 
-			ball.vy = Math.abs(ball.vy) * -1;
-			ball.vx = Math.abs(ball.vx);
+			ball.vy = (ball.vy) * -1;
+			ball.vx = (ball.vxst) * 3;
 		}
 	}
 
