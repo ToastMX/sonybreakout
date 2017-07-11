@@ -15,7 +15,7 @@ public class Block {
 		
 		// random state:
 		int mini = 1; 
-		int  maxi = 100;
+		int maxi = 100;
 		int randVal = mini + (int)(Math.random() * ((maxi - mini) + 1));
 		if (randVal < 90)
 			this.state = 1;

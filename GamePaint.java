@@ -4,10 +4,15 @@ import javax.swing.JPanel;
 public class GamePaint extends JPanel{
 
 	Game game;
-	
+	Color state2 = new Color (109, 7, 7);
+	Color state3 = new Color (226, 162, 11);
+
+
 
 	public GamePaint(Game game){
 		this.game = game;
+		
+		
 	}
 
 	//Painting Everything
@@ -23,9 +28,9 @@ public class GamePaint extends JPanel{
 				else if (game.blocks[y][x].state == 1)
 					g.setColor(Color.BLACK);
 				else if (game.blocks[y][x].state == 2)
-					g.setColor(Color.RED);
+					g.setColor(state2);
 				else if (game.blocks[y][x].state == 3)
-					g.setColor(Color.YELLOW); 
+					g.setColor(state3); 
 				
 				g.fillRect(game.blocks[y][x].xPos, game.blocks[y][x].yPos, game.blocks[y][x].xSize, game.blocks[y][x].ySize);
 				
