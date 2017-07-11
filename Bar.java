@@ -4,15 +4,15 @@ public class Bar {
 	boolean right, left, collidewithbar;
 	int gamexSize;
 	Point upleft, upright, downleft, downright;
-	int vx = 5;
+	int vx = 6;
 
 	public Bar(int startXPos, int startYPos, int gamexSize){
 
 		this.gamexSize = gamexSize;
 		xPos = startXPos;
 		yPos = startYPos;
-		xSize = 180;
-		ySize = 5;
+		xSize = 160;
+		ySize = 6;
 		upleft = new Point(startXPos, startYPos);
 		upright = new Point(startXPos + xSize, startYPos );
 		downleft = new Point(startXPos, startYPos+ ySize);

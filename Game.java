@@ -29,9 +29,9 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 	int blockxStart = 100;
 	int blockyStart = 100;
-	int blockxSize = 75;
-	int blockySize = 35;
-	int blockDistance = 5;
+	int blockxSize = 76;
+	int blockySize = 36;
+	int blockDistance = 6;
 
 	public Game(String username) {
 		Thread = new Thread(this, username);
@@ -89,7 +89,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 			ballBarCollision();
 			ballBlockCollision();
 			bar.move();
-
+			
 			//			System.out.println("ballxPos = " + ball.xPos + ", ballyPos = " + ball.yPos);
 			//			System.out.println("N: " + ball.north.toString());
 			//			System.out.println("E: " + ball.east.toString());
@@ -107,15 +107,13 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	
 	public void ballFrameCollision(){
 
-		if((ball.east.x) >= xSize){
+		if(ball.east.x >= xSize){
 			ball.vx = -1 * ball.vx;
-		}else if (ball.west.x < 0){
+		}else if (ball.west.x <= 0){
 			ball.vx = -1 * ball.vx;
 		}
-		// TODO: -36 weil ich glaube ySize ist die größe 
-		// vom ganzen fenster. AUf jeden stimmt es so bei mir.
-		if(ball.south.y > ySize - 36){
-			// Game over
+		// Game over
+		if(ball.south.y >= gamePaint.getHeight()){
 			ball.vy = 0;
 			ball.vx = 0;
 			gameOver.setVisible(true);
@@ -126,8 +124,6 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 		}else if (ball.yPos < 0)
 			ball.vy = -1 * ball.vy;
-
-
 	}
 
 	public void ballBarCollision(){
@@ -187,6 +183,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		}catch(ArrayIndexOutOfBoundsException aioob){}
 
 	}
+	
 	// Restart
 	public void actionPerformed(ActionEvent e) {
 
