@@ -1,6 +1,4 @@
 public class Ball {
-	//Test Push
-
 
 	int xPos, yPos, xSize, ySize, Dir = 1, vx, vy, vxst = 2, vyst = 4;
 												 //st = standard
