@@ -32,6 +32,8 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	int blockxSize = 60;
 	int blockySize = 25;
 	int blockDistance = 6;
+	
+	int startAnimationClock = 1000; // Frames startanimation
 
 	public Game(String username) {
 		Thread = new Thread(this, username);
@@ -83,7 +85,17 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 						blockySize);
 			}
 		}
-
+		
+		String[] designRows = leveldesign.lvl1.split(",");
+		for(int r=0; r<=designRows.length-1; r++){
+			System.out.println(designRows[r]);
+			String[] designCollumns = designRows[r].split("");
+			for(int c=0; c<=designCollumns.length-1; c++){
+				System.out.println(designCollumns[c]);
+				blocks[r][c].state = Integer.parseInt(designCollumns[c]);
+			}
+		}
+		
 		// different modi to position blocks
 		// TODO
 		//		if (positionLvl == "center") {
@@ -101,11 +113,23 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	}
 
 	public void run() {
-
+		
+		
+		
 		int i = 0;
 		while (true) {
-
 			i++;
+			try {
+				gamePaint.repaint();
+				Thread.sleep(1); 
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			if (startAnimationClock > 0){
+				startAnimationClock -= 1;
+			}
+			
 			if (i % 3 == 0){
 				bar.move();				
 			}
@@ -114,13 +138,6 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 				ballFrameCollision();
 				ballBarCollision();
 				ballBlockCollision();
-			}
-
-			try {
-				gamePaint.repaint();
-				Thread.sleep(1); 
-			} catch (InterruptedException e) {
-				e.printStackTrace();
 			}
 		}
 	}

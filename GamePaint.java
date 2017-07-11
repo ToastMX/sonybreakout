@@ -1,4 +1,5 @@
 import java.awt.*;
+
 import javax.swing.JPanel;
 
 public class GamePaint extends JPanel{
@@ -6,8 +7,6 @@ public class GamePaint extends JPanel{
 	Game game;
 	Color state2 = new Color (109, 7, 7);
 	Color state3 = new Color (226, 162, 11);
-
-
 
 	public GamePaint(Game game){
 		this.game = game;
@@ -17,13 +16,18 @@ public class GamePaint extends JPanel{
 
 	//Painting Everything
 	protected void paintComponent(Graphics g){
+		
 		super.paintComponent(g);
-
+		
+		int blockcount = 0;
+		
 		// Rectangles
 		for(int y = 0; y < game.blocks.length; y++){
 			for(int x = 0; x < game.blocks[y].length; x++){
-
-				if (game.blocks[y][x].state == 0)
+//				System.out.println((int)(Math.pow((float)game.startAnimationClock/(float)500,2.0) * 100));
+//				if (game.blocks[y][x].state == 0 || (1000-game.startAnimationClock) - blockcount * 8 < 0 )
+				if (game.blocks[y][x].state == 0 
+						|| (int)(Math.random() * 100) < (int)(Math.pow((float)game.startAnimationClock/(float)5000,2.0) * 100))
 					continue;
 				else if (game.blocks[y][x].state == 1)
 					g.setColor(Color.BLACK);
@@ -35,6 +39,7 @@ public class GamePaint extends JPanel{
 				g.fillRect(game.blocks[y][x].xPos, game.blocks[y][x].yPos, game.blocks[y][x].xSize, game.blocks[y][x].ySize);
 				
 				g.setColor(Color.BLACK);
+				blockcount++;
 			}
 		}
 
