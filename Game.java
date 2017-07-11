@@ -15,6 +15,10 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	GamePaint gamePaint;
 	JButton restart;
 	JLabel gameOver;
+	
+	JLabel lebenlabel;
+	int leben = 3;
+	boolean roundstarted = false;
 
 	Thread Thread;
 
@@ -27,6 +31,8 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	Bar bar;
 	Block[][] blocks;
 
+	int blockrows = 7;
+	int blockcolumns = 17;
 	int blockxStart = 100;
 	int blockyStart = 100;
 	int blockxSize = 60;
@@ -49,11 +55,25 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		gamePaint = new GamePaint(this);
 		c.add(gamePaint);
 
+		lebenlabel = new JLabel("Leben: " + leben);
+		gamePaint.add(lebenlabel);
+		
+		KeyListener upRoundStart = new KeyListener(){
+			public void keyPressed(KeyEvent ke){
+				if(ke.getKeyCode() == 38 & !roundstarted){
+					System.out.println("Klappt");
+					roundstarted = true;
+				}
+			}
+			public void keyReleased(KeyEvent arg0) {}
+			public void keyTyped(KeyEvent e) {}
+		};
+		addKeyListener(upRoundStart);
+
 		gameOver = new JLabel("Game Over");
 		gameOver.setVisible(false);
 		gamePaint.add(gameOver);
 
-		// restart Buttom 
 		restart = new JButton("Restart");
 		restart.setVisible(false);
 		gamePaint.add(restart);
@@ -72,11 +92,11 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		addKeyListener(this);
 		this.setFocusable(true);
 
-		ball = new Ball(xSize/2, ySize - 140);
-		bar = new Bar(xSize/2, ySize - 60, xSize);
+		bar = new Bar(xSize/2 - 80, ySize - 60, xSize);
+		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos - 26));
 
+		blocks = new Block[blockrows][blockcolumns];
 
-		blocks = new Block[7][17];
 		for(int y=0; y<=blocks.length-1; y++){
 			for(int x=0; x<=blocks[y].length-1; x++){
 				blocks[y][x] = new Block(blockxStart + x*blockxSize + x*blockDistance,
@@ -131,9 +151,20 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 			}
 			
 			if (i % 3 == 0){
-				bar.move();				
+				bar.move();
+				if(!roundstarted){
+				ball.xPos = (int) (bar.xPos + (bar.xSize)/ 2) - 13;
+				ball.yPos = (int) (bar.yPos - 26);
+				
+				ball.north = new Point(ball.xPos + ball.xSize/2, ball.yPos);
+				ball.east = new Point (ball.xPos + ball.xSize, ball.yPos + ball.ySize/2);
+				ball.south = new Point(ball.xPos + ball.xSize/2, ball.yPos + ball.ySize);
+				ball.west = new Point(ball.xPos, ball.yPos + ball.ySize/2);
+				
+				}
+				
 			}
-			if  (i % 5 == 0){
+			if  (i % 5 == 0 && roundstarted){
 				ball.move();
 				ballFrameCollision();
 				ballBarCollision();
@@ -149,16 +180,24 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		}else if (ball.west.x <= 0){
 			ball.vx = -1 * ball.vx;
 		}
-		// Game over
-		if(ball.south.y >= gamePaint.getHeight()){
-			ball.vy = 0;
-			ball.vx = 0;
-			gameOver.setVisible(true);
-			restart.setVisible(true);
-			removeKeyListener(this);
-			bar.left = false;
-			bar.right= false;
 
+		//Ball hits ground
+		if(ball.south.y >= gamePaint.getHeight()){
+			--leben;
+			if(leben == 0){
+				ball.vy = 0;
+				ball.vx = 0;
+				gameOver.setVisible(true);
+				restart.setVisible(true);
+				removeKeyListener(this);
+				bar.left = false;
+				bar.right= false;
+				lebenlabel.setText("Leben: " + leben);
+			}else if(leben > 0){
+				roundstarted = false;
+				ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos) - 26);
+				lebenlabel.setText("Leben: " + leben);
+			}
 		}else if (ball.yPos < 0)
 			ball.vy = -1 * ball.vy;
 	}
@@ -270,16 +309,21 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 	// Restart
 	public void actionPerformed(ActionEvent e) {
-
-		ball = new Ball(xSize/2, ySize - 140);
-		bar = new Bar(xSize/2, ySize - 60, xSize);
-		//
-		//		blocks = new Block[3][14];
-		//		for(int y=0; y<=2; y++){
-		//			for(int x=0; x<=13; x++){
-		//				blocks[y][x] = new Block(blockxStart + x*blockxSize + x*blockDistance, blockyStart + y*blockySize + y*blockDistance, blockxSize, blockySize);
-		//			}
-		//		}
+		roundstarted = false;
+		leben = 3;
+		lebenlabel.setText("Leben: " + leben);
+		bar = new Bar(xSize/2 - 80, ySize - 60, xSize);
+		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos) - 26);
+		
+		blocks = new Block[blockrows][blockcolumns];
+		for(int y=0; y<=blocks.length-1; y++){
+			for(int x=0; x<=blocks[y].length-1; x++){
+				blocks[y][x] = new Block(blockxStart + x*blockxSize + x*blockDistance,
+						blockyStart + y*blockySize + y*blockDistance,
+						blockxSize,
+						blockySize);
+			}
+		}
 
 		restart.setVisible(false);
 		gameOver.setVisible(false);

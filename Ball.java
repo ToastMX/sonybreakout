@@ -1,6 +1,6 @@
 public class Ball {
 
-	int xPos, yPos, xSize, ySize, Dir = 1, vx, vy, vxst = 2, vyst = 4;
+	int xPos, yPos, xSize, ySize, dir = 1, vx, vy, vxst = 2, vyst = 4;
 												 //st = standard
 	int xTo, yTo; // target values for changeSize Methode
 	
@@ -14,7 +14,7 @@ public class Ball {
 		yPos = startYPos;
 		xSize = 26;
 		ySize = 26;
-		vx = vxst;
+		vx = 0;
 		vy = - vyst;
 
 		north = new Point(xPos + xSize/2, yPos);
@@ -23,8 +23,13 @@ public class Ball {
 		west = new Point(xPos, yPos + ySize/2);
 		
 	}
-
-
+	
+//	public void movewithbar(Bar bar){
+//		xPos  = (int) (bar.xPos + (bar.xSize)/ 2) - 13;
+//		yPos = (int) (bar.yPos - 26);
+//		
+//	}
+	
 	public void move() {			
 		xPos += vx;
 		yPos += vy;
