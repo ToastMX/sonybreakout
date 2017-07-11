@@ -73,7 +73,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		ball = new Ball(xSize/2, ySize - 140);
 		bar = new Bar(xSize/2, ySize - 60, xSize);
 
-		blocks = new Block[20][25];
+		blocks = new Block[15][25];
 		for(int y=0; y<=blocks.length-1; y++){
 			for(int x=0; x<=blocks[y].length-1; x++){
 				blocks[y][x] = new Block(blockxStart + x*blockxSize + x*blockDistance,
@@ -100,18 +100,21 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	}
 
 	public void run() {
+		int count = 0;
 		while (true) {
-
-
-			ball.move();
+			count++;
 			bar.move();
-			ballFrameCollision();
-			ballBarCollision();
-			ballBlockCollision();
+			
+			if (count % 5 == 0){
+				ball.move();
+				ballFrameCollision();
+				ballBarCollision();
+				ballBlockCollision();
+			}
 
 			try {
 				gamePaint.repaint();
-				Thread.sleep(7); 
+				Thread.sleep(1); 
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

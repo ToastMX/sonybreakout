@@ -4,7 +4,8 @@ public class Bar {
 	boolean right, left, collidewithbar;
 	int gamexSize;
 	Point upleft, upright, downleft, downright;
-	int vx = 6;
+	int vx = 1;
+	float vvx = 1;
 
 	public Bar(int startXPos, int startYPos, int gamexSize){
 
@@ -29,6 +30,7 @@ public class Bar {
 
 	public void move(){
 		int vx = 0;
+		
 		if (right){
 			vx = this.vx;
 			if (upright.x >= gamexSize)
