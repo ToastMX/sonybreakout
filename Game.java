@@ -126,24 +126,42 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 				& bar.upright.x >= ball.south.x 
 				& bar.y() <= ball.south.y 
 				& bar.y() + bar.ySize >= ball.south.y){
-			
-			//left side hit
+
+
 			if (ball.south.x < bar.xPos + bar.xSize/2){
+
+				//2. quarter
+				if(ball.south.x < bar.xPos + bar.xSize/4){
+					ball.vx = - (int) (ball.vxst * 1);
+				}//1. quarter
+				else{
+					ball.vx = - (int) (ball.vxst * 2);
+				}
 			}	
-			//right side hit
+
 			if (ball.south.x > bar.xPos + bar.xSize/2){
+
+				//4. quarter
+				if(ball.south.x > bar.xPos + 3*bar.xSize/4){
+					ball.vx =  (int) (ball.vxst * 2);
+				}//3. quarter
+				else{
+
+					ball.vx =  (int) (ball.vxst * 1);
+				}
 			}
-			
+
 			ball.vy = Math.abs(ball.vy) * -1;
 
 			//SPINGAME
-//			if(bar.left){
-//				ball.vx -= 1;
-//			}
-//			if(bar.right){
-//				ball.vx += 1;
-//			}
-		}		
+			//			if(bar.left){
+			//				ball.vx -= 1;
+			//			}
+			//			if(bar.right){
+			//				ball.vx += 1;
+			//			}
+		}	
+
 		// collison left egde
 		else if (bar.upleft.x < ball.east.x
 				& bar.upright.x > ball.east.x 
@@ -165,17 +183,17 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	}
 
 	public void ballBlockCollision(){
-		
+
 		Block treffer = this.getBlockByKords(ball.xPos, ball.yPos);
-		
+
 		if (treffer != null && treffer.state != 0){
 			treffer.state = 0;
 			ball.vy = 3;
 		}
 	}
-	
+
 	public Block getBlockByKords(int x, int y){
-		
+
 		int x2edge = x - blockxStart;
 		int areaX = blockxSize + blockDistance;
 		int column = x2edge/areaX;
@@ -183,15 +201,15 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		int y2edge = y - blockyStart;
 		int areaY = blockySize + blockDistance;
 		int row = y2edge/areaY;
-		
+
 		try{
 			return blocks[row][column];
 		}catch(ArrayIndexOutOfBoundsException aioob){
 			return null;
 		}
-		
-		
-				
+
+
+
 	}
 	// Restart
 	public void actionPerformed(ActionEvent e) {
