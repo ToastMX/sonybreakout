@@ -69,7 +69,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 		addKeyListener(this);
 		this.setFocusable(true);
-		
+
 		ball = new Ball(xSize/2, ySize - 140);
 		bar = new Bar(xSize/2, ySize - 60, xSize);
 
@@ -77,26 +77,26 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		for(int y=0; y<=blocks.length-1; y++){
 			for(int x=0; x<=blocks[y].length-1; x++){
 				blocks[y][x] = new Block(blockxStart + x*blockxSize + x*blockDistance,
-										 blockyStart + y*blockySize + y*blockDistance,
-										 blockxSize,
-										 blockySize);
+						blockyStart + y*blockySize + y*blockDistance,
+						blockxSize,
+						blockySize);
 			}
 		}
-		
+
 		// different modi to position blocks
 		// TODO
-//		if (positionLvl == "center") {
-//			int blockxStart = blockxSize;
-//			int blockDistance = 6;
-//		}
-//		else if (positionLvl == "max"){
-//			int blockxStart = 100;
-//			int blockyStart = 100;
-//			int blockxSize = 45;
-//			int blockySize = 20;
-//			int blockDistance = 6;
-//		}
-		
+		//		if (positionLvl == "center") {
+		//			int blockxStart = blockxSize;
+		//			int blockDistance = 6;
+		//		}
+		//		else if (positionLvl == "max"){
+		//			int blockxStart = 100;
+		//			int blockyStart = 100;
+		//			int blockxSize = 45;
+		//			int blockySize = 20;
+		//			int blockDistance = 6;
+		//		}
+
 	}
 
 	public void run() {
@@ -146,38 +146,40 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 				& bar.y() <= ball.south.y 
 				& bar.y() + bar.ySize >= ball.south.y){
 
-
-			if (ball.south.x < bar.xPos + bar.xSize/2){
-
-				//1. quarter
-				if(ball.south.x < bar.xPos + bar.xSize/4){
-					ball.vx = - (int) (ball.vxst * 2);
-				}//2. quarter
-				else{
-					ball.vx = - (int) (ball.vxst * 1);
-				}
-			}	
-
-			if (ball.south.x > bar.xPos + bar.xSize/2){
-
-				//4. quarter
-				if(ball.south.x > bar.xPos + 3*bar.xSize/4){
-					ball.vx =  (int) (ball.vxst * 2);
-				}//3. quarter
-				else{
-					ball.vx =  (int) (ball.vxst * 1);
-				}
-			}
-
 			ball.vy = Math.abs(ball.vy) * -1;
 
-			//SPINGAME
-			//			if(bar.left){
-			//				ball.vx -= 1;
-			//			}
-			//			if(bar.right){
-			//				ball.vx += 1;
-			//			}
+
+			if(ball.south.x < bar.xPos + 1*bar.xSize/7)
+				ball.vx = - (int) (ball.vxst * 3);
+
+			else if(ball.south.x < bar.xPos + 2*bar.xSize/7)
+				ball.vx = - (int) (ball.vxst * 2);
+
+			else if(ball.south.x < bar.xPos + 3*bar.xSize/7)
+				ball.vx = - (int) (ball.vxst * 1);
+
+			else if(ball.south.x < bar.xPos + 4*bar.xSize/7)
+				ball.vx =  (int) (ball.vxst * 0);
+
+			else if (ball.south.x < bar.xPos + 5*bar.xSize/7)
+				ball.vx =  (int) (ball.vxst * 1);
+
+			else if(ball.south.x < bar.xPos + 6*bar.xSize/7)
+				ball.vx =  (int) (ball.vxst * 2);
+
+			else if(ball.south.x < bar.xPos + 7*bar.xSize/7)
+				ball.vx =  (int) (ball.vxst * 3);
+
+
+
+
+					//SPINGAME
+					//			if(bar.left){
+					//				ball.vx -= 1;
+					//			}
+					//			if(bar.right){
+					//				ball.vx += 1;
+					//			}
 		}	
 
 		// collison left egde
@@ -244,7 +246,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 			return null;
 		}
 	}
-	
+
 	// Restart
 	public void actionPerformed(ActionEvent e) {
 
