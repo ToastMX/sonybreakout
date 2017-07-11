@@ -85,17 +85,17 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		
 		// different modi to position blocks
 		// TODO
-		if (positionLvl == "center") {
-			int blockxStart = blockxSize;
-			int blockDistance = 6;
-		}
-		else if (positionLvl == "max"){
-			int blockxStart = 100;
-			int blockyStart = 100;
-			int blockxSize = 45;
-			int blockySize = 20;
-			int blockDistance = 6;
-		}
+//		if (positionLvl == "center") {
+//			int blockxStart = blockxSize;
+//			int blockDistance = 6;
+//		}
+//		else if (positionLvl == "max"){
+//			int blockxStart = 100;
+//			int blockyStart = 100;
+//			int blockxSize = 45;
+//			int blockySize = 20;
+//			int blockDistance = 6;
+//		}
 		
 	}
 
@@ -140,7 +140,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	}
 
 	public void ballBarCollision(){
-		// collision on top
+		// collision on top in bar range
 		if (bar.upleft.x <= ball.south.x
 				& bar.upright.x >= ball.south.x 
 				& bar.y() <= ball.south.y 
@@ -149,12 +149,12 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 			if (ball.south.x < bar.xPos + bar.xSize/2){
 
-				//2. quarter
+				//1. quarter
 				if(ball.south.x < bar.xPos + bar.xSize/4){
-					ball.vx = - (int) (ball.vxst * 1);
-				}//1. quarter
-				else{
 					ball.vx = - (int) (ball.vxst * 2);
+				}//2. quarter
+				else{
+					ball.vx = - (int) (ball.vxst * 1);
 				}
 			}	
 
@@ -165,7 +165,6 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 					ball.vx =  (int) (ball.vxst * 2);
 				}//3. quarter
 				else{
-
 					ball.vx =  (int) (ball.vxst * 1);
 				}
 			}
@@ -244,10 +243,8 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		}catch(ArrayIndexOutOfBoundsException aioob){
 			return null;
 		}
-
-
-
 	}
+	
 	// Restart
 	public void actionPerformed(ActionEvent e) {
 
