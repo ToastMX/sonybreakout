@@ -9,10 +9,10 @@ public class Ball {
 
 		xPos = startXPos;
 		yPos = startYPos;
-		xSize = 25;
-		ySize = 25;
-		vx = 3;
-		vy = -3;
+		xSize = 26;
+		ySize = 26;
+		vx = 4;
+		vy = -4;
 
 		north = new Point(xPos + xSize/2, yPos);
 		east = new Point (xPos + xSize, yPos + ySize/2);

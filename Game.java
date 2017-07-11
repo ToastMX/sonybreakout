@@ -29,9 +29,9 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 	int blockxStart = 100;
 	int blockyStart = 100;
-	int blockxSize = 75;
-	int blockySize = 35;
-	int blockDistance = 5;
+	int blockxSize = 76;
+	int blockySize = 36;
+	int blockDistance = 6;
 
 	public Game(String username) {
 		Thread = new Thread(this, username);
@@ -66,7 +66,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 			public void keyTyped(KeyEvent ke) {}
 		};
 		addKeyListener(spaceRestart);
-		
+
 		addKeyListener(this);
 		this.setFocusable(true);
 		ball = new Ball(xSize/2, ySize - 140);
@@ -85,37 +85,29 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 
 			ball.move();
+			bar.move();
 			ballFrameCollision();
 			ballBarCollision();
 			ballBlockCollision();
-			bar.move();
-
-			//			System.out.println("ballxPos = " + ball.xPos + ", ballyPos = " + ball.yPos);
-			//			System.out.println("N: " + ball.north.toString());
-			//			System.out.println("E: " + ball.east.toString());
-			//			System.out.println("S: " + ball.south.toString());
-			//			System.out.println("W: " + ball.west.toString());
 
 			try {
 				gamePaint.repaint();
-				Thread.sleep(7); // Ball Speed
+				Thread.sleep(7); 
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	public void ballFrameCollision(){
 
-		if((ball.east.x) >= xSize){
+		if(ball.east.x >= xSize){
 			ball.vx = -1 * ball.vx;
-		}else if (ball.west.x < 0){
+		}else if (ball.west.x <= 0){
 			ball.vx = -1 * ball.vx;
 		}
-		// TODO: -36 weil ich glaube ySize ist die größe 
-		// vom ganzen fenster. AUf jeden stimmt es so bei mir.
-		if(ball.south.y > ySize - 36){
-			// Game over
+		// Game over
+		if(ball.south.y >= gamePaint.getHeight()){
 			ball.vy = 0;
 			ball.vx = 0;
 			gameOver.setVisible(true);
@@ -126,47 +118,49 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 		}else if (ball.yPos < 0)
 			ball.vy = -1 * ball.vy;
-
-
 	}
 
 	public void ballBarCollision(){
 		// collision on top
-		if (bar.upleft.x < ball.south.x
-			& bar.upright.x > ball.south.x 
-			& bar.y() <= ball.south.y 
-			& bar.y() + 5 >= ball.south.y){
-
+		if (bar.upleft.x <= ball.south.x
+				& bar.upright.x >= ball.south.x 
+				& bar.y() <= ball.south.y 
+				& bar.y() + bar.ySize >= ball.south.y){
+			
+			//left side hit
+			if (ball.south.x < bar.xPos + bar.xSize/2){
+			}	
+			//right side hit
+			if (ball.south.x > bar.xPos + bar.xSize/2){
+			}
+			
 			ball.vy = Math.abs(ball.vy) * -1;
 
 			//SPINGAME
-			if(bar.left){
-				ball.vx -= 1;
-			}
-			if(bar.right){
-				ball.vx += 1;
-			}
-		}
-		
+//			if(bar.left){
+//				ball.vx -= 1;
+//			}
+//			if(bar.right){
+//				ball.vx += 1;
+//			}
+		}		
 		// collison left egde
 		else if (bar.upleft.x < ball.east.x
-			& bar.upright.x > ball.east.x 
-			& bar.y() <= ball.east.y 
-			& bar.downleft.y >= ball.east.y){
-			
+				& bar.upright.x > ball.east.x 
+				& bar.y() <= ball.east.y 
+				& bar.downleft.y >= ball.east.y){
+
 			ball.vy = Math.abs(ball.vy) * -1;
 			ball.vx = Math.abs(ball.vx) * -1;
-			
 		}
 		// collison right egde
 		else if (bar.upleft.x < ball.west.x
-			& bar.upright.x > ball.west.x 
-			& bar.y() <= ball.west.y 
-			& bar.downleft.y >= ball.west.y){
-			
+				& bar.upright.x > ball.west.x 
+				& bar.y() <= ball.west.y 
+				& bar.downleft.y >= ball.west.y){
+
 			ball.vy = Math.abs(ball.vy) * -1;
 			ball.vx = Math.abs(ball.vx);
-			
 		}
 	}
 
@@ -199,7 +193,6 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		
 				
 	}
-	
 	// Restart
 	public void actionPerformed(ActionEvent e) {
 

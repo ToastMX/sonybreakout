@@ -13,7 +13,6 @@ public class Point {
 	}
 	
 	public static void multiMove(int mx, int my, Point... plist){
-		//move multiple points
 		
 		for (Point po : plist){
 			po.x = po.x + mx;
