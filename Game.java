@@ -29,8 +29,8 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 	int blockxStart = 100;
 	int blockyStart = 100;
-	int blockxSize = 76;
-	int blockySize = 36;
+	int blockxSize = 45;
+	int blockySize = 20;
 	int blockDistance = 6;
 
 	public Game(String username) {
@@ -72,9 +72,9 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		ball = new Ball(xSize/2, ySize - 140);
 		bar = new Bar(xSize/2, ySize - 60, xSize);
 
-		blocks = new Block[3][14];
-		for(int y=0; y<=2; y++){
-			for(int x=0; x<=13; x++){
+		blocks = new Block[6][20];
+		for(int y=0; y<=blocks.length-1; y++){
+			for(int x=0; x<=blocks[y].length-1; x++){
 				blocks[y][x] = new Block(blockxStart + x*blockxSize + x*blockDistance, blockyStart + y*blockySize + y*blockDistance, blockxSize, blockySize);
 			}
 		}
@@ -166,16 +166,35 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 	public void ballBlockCollision(){
 		
-		Block treffer = this.getBlockByKords(ball.xPos, ball.yPos);
+		Block north = this.getBlockByKords(ball.north.x, ball.north.y);
+		Block east = this.getBlockByKords(ball.east.x, ball.east.y);
+		Block south = this.getBlockByKords(ball.south.x, ball.south.y);
+		Block west = this.getBlockByKords(ball.west.x, ball.west.y);
 		
-		if (treffer != null && treffer.state != 0){
-			treffer.state = 0;
-			ball.vy = 3;
+		// from bottom 
+		if (north != null && north.state != 0){
+			north.state = 0;
+			ball.vy = Math.abs(ball.vy);
 		}
+		// from top 
+		else if (south != null && south.state != 0){
+			south.state = 0;
+			ball.vy = Math.abs(ball.vy) * -1;
+		}
+		// from right
+		else if (west != null && west.state != 0){
+			west.state = 0;
+			ball.vx = Math.abs(ball.vy);
+		}
+		// from left
+		else if (east != null && east.state != 0){
+			east.state = 0;
+			ball.vx = Math.abs(ball.vx) * -1;
+		}
+		
 	}
 	
 	public Block getBlockByKords(int x, int y){
-		
 		int x2edge = x - blockxStart;
 		int areaX = blockxSize + blockDistance;
 		int column = x2edge/areaX;
@@ -198,13 +217,13 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 		ball = new Ball(xSize/2, ySize - 140);
 		bar = new Bar(xSize/2, ySize - 60, xSize);
-
-		blocks = new Block[3][14];
-		for(int y=0; y<=2; y++){
-			for(int x=0; x<=13; x++){
-				blocks[y][x] = new Block(blockxStart + x*blockxSize + x*blockDistance, blockyStart + y*blockySize + y*blockDistance, blockxSize, blockySize);
-			}
-		}
+//
+//		blocks = new Block[3][14];
+//		for(int y=0; y<=2; y++){
+//			for(int x=0; x<=13; x++){
+//				blocks[y][x] = new Block(blockxStart + x*blockxSize + x*blockDistance, blockyStart + y*blockySize + y*blockDistance, blockxSize, blockySize);
+//			}
+//		}
 
 		restart.setVisible(false);
 		gameOver.setVisible(false);
