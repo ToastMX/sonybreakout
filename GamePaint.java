@@ -18,7 +18,7 @@ public class GamePaint extends JPanel{
 		for(int y = 0; y < game.blocks.length; y++){
 			for(int x = 0; x < game.blocks[y].length; x++){
 
-				if (game.blocks[y][x] == null)
+				if (game.blocks[y][x].state == 0)
 					continue;
 
 				g.fillRect(game.blocks[y][x].xPos, game.blocks[y][x].yPos, game.blocks[y][x].xSize, game.blocks[y][x].ySize);

@@ -165,23 +165,38 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	}
 
 	public void ballBlockCollision(){
-		int x2edge = ball.xPos - blockxStart;
+		
+		Block treffer = this.getBlockByKords(ball.xPos, ball.yPos);
+		
+		if (treffer != null && treffer.state != 0){
+			treffer.state = 0;
+			ball.vy = 3;
+		}
+		
+		
+		
+
+	}
+	
+	public Block getBlockByKords(int x, int y){
+		
+		int x2edge = x - blockxStart;
 		int areaX = blockxSize + blockDistance;
 		int column = x2edge/areaX;
 
-		int y2edge = ball.yPos - blockyStart;
+		int y2edge = y - blockyStart;
 		int areaY = blockySize + blockDistance;
 		int row = y2edge/areaY;
-
+		
 		try{
-			if (blocks[row][column] != null){
-				blocks[row][column] = null;
-				ball.vy = 3; // Hier dann noch die anderen Bedingungen, je nach dem wo der Ball den Block trifft
-			}
-		}catch(ArrayIndexOutOfBoundsException aioob){}
-
+			return blocks[row][column];
+		}catch(ArrayIndexOutOfBoundsException aioob){
+			return null;
+		}
+		
+		
+				
 	}
-
 	// Restart
 	public void actionPerformed(ActionEvent e) {
 
