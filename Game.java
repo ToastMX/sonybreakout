@@ -51,11 +51,11 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		gameOver.setVisible(false);
 		gamePaint.add(gameOver);
 
+		// restart Buttom 
 		restart = new JButton("Restart");
 		restart.setVisible(false);
 		gamePaint.add(restart);
 		restart.addActionListener(this);
-
 		KeyListener spaceRestart = new KeyListener(){
 			public void keyPressed(KeyEvent ke) {
 				if(ke.getKeyCode() == KeyEvent.VK_SPACE & restart.isVisible()){
@@ -69,15 +69,34 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 		addKeyListener(this);
 		this.setFocusable(true);
+		
 		ball = new Ball(xSize/2, ySize - 140);
 		bar = new Bar(xSize/2, ySize - 60, xSize);
 
 		blocks = new Block[6][20];
 		for(int y=0; y<=blocks.length-1; y++){
 			for(int x=0; x<=blocks[y].length-1; x++){
-				blocks[y][x] = new Block(blockxStart + x*blockxSize + x*blockDistance, blockyStart + y*blockySize + y*blockDistance, blockxSize, blockySize);
+				blocks[y][x] = new Block(blockxStart + x*blockxSize + x*blockDistance,
+										 blockyStart + y*blockySize + y*blockDistance,
+										 blockxSize,
+										 blockySize);
 			}
 		}
+		
+		// different modi to position blocks
+		// TODO
+		if (positionLvl == "center") {
+			int blockxStart = blockxSize;
+			int blockDistance = 6;
+		}
+		else if (positionLvl == "max"){
+			int blockxStart = 100;
+			int blockyStart = 100;
+			int blockxSize = 45;
+			int blockySize = 20;
+			int blockDistance = 6;
+		}
+		
 	}
 
 	public void run() {
