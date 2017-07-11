@@ -178,10 +178,6 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 			treffer.state = 0;
 			ball.vy = 3;
 		}
-		
-		
-		
-
 	}
 	
 	public Block getBlockByKords(int x, int y){
