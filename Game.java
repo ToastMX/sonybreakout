@@ -15,9 +15,9 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	GamePaint gamePaint;
 	JButton restart;
 	JLabel gameOver;
-	
+
 	JLabel lebenlabel;
-	int leben = 3;
+	int leben;
 	boolean roundstarted = false;
 
 	Thread Thread;
@@ -38,7 +38,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	int blockxSize = 60;
 	int blockySize = 25;
 	int blockDistance = 6;
-	
+
 	int startAnimationClock = 1000; // Frames startanimation
 
 	public Game(String username) {
@@ -51,13 +51,10 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		setTitle(username + "'s" + " Game");
 		setLocation(xLoc, yLoc);
 		setResizable(false);
-
+		
 		gamePaint = new GamePaint(this);
 		c.add(gamePaint);
 
-		lebenlabel = new JLabel("Leben: " + leben);
-		gamePaint.add(lebenlabel);
-		
 		KeyListener upRoundStart = new KeyListener(){
 			public void keyPressed(KeyEvent ke){
 				if(ke.getKeyCode() == 38 & !roundstarted){
@@ -69,15 +66,17 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 			public void keyTyped(KeyEvent e) {}
 		};
 		addKeyListener(upRoundStart);
-
+		
+		lebenlabel = new JLabel("Leben: " + leben);
+		gamePaint.add(lebenlabel);
 		gameOver = new JLabel("Game Over");
-		gameOver.setVisible(false);
 		gamePaint.add(gameOver);
-
 		restart = new JButton("Restart");
-		restart.setVisible(false);
 		gamePaint.add(restart);
 		restart.addActionListener(this);
+		
+		this.setFocusable(true);
+		
 		KeyListener spaceRestart = new KeyListener(){
 			public void keyPressed(KeyEvent ke) {
 				if(ke.getKeyCode() == KeyEvent.VK_SPACE & restart.isVisible()){
@@ -89,12 +88,18 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		};
 		addKeyListener(spaceRestart);
 
-		addKeyListener(this);
-		this.setFocusable(true);
+		startNewGame();
+		
+	}
+
+	public void startNewGame() {
+		roundstarted = false;
+		leben = 3;
 
 		bar = new Bar(xSize/2 - 80, ySize - 60, xSize);
-		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos - 26));
-
+//		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos - 26));
+//		ball gets build at newRound
+		
 		blocks = new Block[blockrows][blockcolumns];
 
 		for(int y=0; y<=blocks.length-1; y++){
@@ -105,7 +110,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 						blockySize);
 			}
 		}
-		
+
 		String[] designRows = leveldesign.lvl1.split(",");
 		for(int r=0; r<=designRows.length-1; r++){
 			System.out.println(designRows[r]);
@@ -115,27 +120,23 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 				blocks[r][c].state = Integer.parseInt(designCollumns[c]);
 			}
 		}
+
+		restart.setVisible(false); 	// restart knopf
+		gameOver.setVisible(false);	// gamoversign
+		this.addKeyListener(this);	// make bar active
 		
-		// different modi to position blocks
-		// TODO
-		//		if (positionLvl == "center") {
-		//			int blockxStart = blockxSize;
-		//			int blockDistance = 6;
-		//		}
-		//		else if (positionLvl == "max"){
-		//			int blockxStart = 100;
-		//			int blockyStart = 100;
-		//			int blockxSize = 45;
-		//			int blockySize = 20;
-		//			int blockDistance = 6;
-		//		}
+		startNewRound();
 
 	}
 
+	public void startNewRound(){
+		roundstarted = false; //wait until top arrow is pressed
+		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos) - 26);
+		lebenlabel.setText("Leben: " + leben);
+	}
+
 	public void run() {
-		
-		
-		
+
 		int i = 0;
 		while (true) {
 			i++;
@@ -145,24 +146,25 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 			if (startAnimationClock > 0){
 				startAnimationClock -= 1;
 			}
-			
+
 			if (i % 3 == 0){
 				bar.move();
+				
 				if(!roundstarted){
-				ball.xPos = (int) (bar.xPos + (bar.xSize)/ 2) - 13;
-				ball.yPos = (int) (bar.yPos - 26);
-				
-				ball.north = new Point(ball.xPos + ball.xSize/2, ball.yPos);
-				ball.east = new Point (ball.xPos + ball.xSize, ball.yPos + ball.ySize/2);
-				ball.south = new Point(ball.xPos + ball.xSize/2, ball.yPos + ball.ySize);
-				ball.west = new Point(ball.xPos, ball.yPos + ball.ySize/2);
-				
+					ball.xPos = (int) (bar.xPos + (bar.xSize)/ 2) - 13;
+					ball.yPos = (int) (bar.yPos - 26);
+
+					ball.north = new Point(ball.xPos + ball.xSize/2, ball.yPos);
+					ball.east = new Point (ball.xPos + ball.xSize, ball.yPos + ball.ySize/2);
+					ball.south = new Point(ball.xPos + ball.xSize/2, ball.yPos + ball.ySize);
+					ball.west = new Point(ball.xPos, ball.yPos + ball.ySize/2);
+
 				}
-				
+
 			}
 			if  (i % 5 == 0 && roundstarted){
 				ball.move();
@@ -194,9 +196,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 				bar.right= false;
 				lebenlabel.setText("Leben: " + leben);
 			}else if(leben > 0){
-				roundstarted = false;
-				ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos) - 26);
-				lebenlabel.setText("Leben: " + leben);
+				startNewRound();
 			}
 		}else if (ball.yPos < 0)
 			ball.vy = -1 * ball.vy;
@@ -309,31 +309,22 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 	// Restart
 	public void actionPerformed(ActionEvent e) {
-		roundstarted = false;
-		leben = 3;
-		lebenlabel.setText("Leben: " + leben);
-		bar = new Bar(xSize/2 - 80, ySize - 60, xSize);
-		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos) - 26);
-		
-		blocks = new Block[blockrows][blockcolumns];
-		for(int y=0; y<=blocks.length-1; y++){
-			for(int x=0; x<=blocks[y].length-1; x++){
-				blocks[y][x] = new Block(blockxStart + x*blockxSize + x*blockDistance,
-						blockyStart + y*blockySize + y*blockDistance,
-						blockxSize,
-						blockySize);
-			}
-		}
+		startNewGame();
 
-		restart.setVisible(false);
-		gameOver.setVisible(false);
-		this.addKeyListener(this);
+		//		roundstarted = false;
+		//		leben = 3;
+		//		lebenlabel.setText("Leben: " + leben);
+		//		bar = new Bar(xSize/2 - 80, ySize - 60, xSize);
+		//		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos) - 26);
+
+		//		restart.setVisible(false);
+		//		gameOver.setVisible(false);
+		//		this.addKeyListener(this);
 
 	}
 
 	// Movement of Bar (Key-Listener)
 	public void keyPressed(KeyEvent e) {
-
 		if (e.getKeyCode() == 37) {
 			bar.left = true;
 			bar.right = false;
@@ -345,8 +336,12 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	}
 
 	public void keyReleased(KeyEvent e) {
-		bar.left = false;
-		bar.right = false;
+		if (e.getKeyCode() == 37) {
+			bar.left = false;
+		}
+		if (e.getKeyCode() == 39) {
+			bar.right = false;
+		}
 	}
 	public void keyTyped(KeyEvent e) {}
 }

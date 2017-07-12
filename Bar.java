@@ -5,7 +5,9 @@ public class Bar {
 	int gamexSize;
 	Point upleft, upright, downleft, downright;
 	int vx = 5;
-
+	
+	Ball catchBall = null;
+	
 	public Bar(int startXPos, int startYPos, int gamexSize){
 
 		this.gamexSize = gamexSize;
@@ -47,6 +49,11 @@ public class Bar {
 //			Point.multiMove(gamexSize - upright.x, 0, upleft, upright, downleft, downright);
 //		}
 		xPos = upleft.x;
+		
+		if (catchBall != null){
+			// catchBall
+		}
 	}
+	
 
 }
