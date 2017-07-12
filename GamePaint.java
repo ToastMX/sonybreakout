@@ -20,21 +20,24 @@ public class GamePaint extends JPanel{
 		int blockcount = 0;
 		
 		// Rectangles
-		for(int y = 0; y < game.blocks.length; y++){
-			for(int x = 0; x < game.blocks[y].length; x++){
+		for(int y = 0; y < Block.all.length; y++){
+			for(int x = 0; x < Block.all[y].length; x++){
 //				System.out.println((int)(Math.pow((float)game.startAnimationClock/(float)500,2.0) * 100));
 //				if (game.blocks[y][x].state == 0 || (1000-game.startAnimationClock) - blockcount * 8 < 0 )
-				if (game.blocks[y][x].state == 0 
+				if (Block.all[y][x].state == 0 
 						|| (int)(Math.random() * 100) < (int)(Math.pow((float)game.level.startAnimationClock/(float)5000,2.0) * 100))
 					continue;
-				else if (game.blocks[y][x].state == 1)
+				else if (Block.all[y][x].state == 1)
 					g.setColor(Color.BLACK);
-				else if (game.blocks[y][x].state == 2)
+				else if (Block.all[y][x].state == 2)
 					g.setColor(state2);
-				else if (game.blocks[y][x].state == 3)
+				else if (Block.all[y][x].state == 3)
 					g.setColor(state3); 
 				
-				g.fillRect(game.blocks[y][x].xPos, game.blocks[y][x].yPos, game.blocks[y][x].xSize, game.blocks[y][x].ySize);
+				g.fillRect(Block.all[y][x].xPos, 
+						Block.all[y][x].yPos, 
+						Block.all[y][x].xSize, 
+						Block.all[y][x].ySize);
 				
 				g.setColor(Color.BLACK);
 				blockcount++;

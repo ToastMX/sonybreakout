@@ -22,10 +22,10 @@ public class Game extends JFrame implements Runnable, KeyListener{
 
 	Ball ball;
 	Bar bar;
-	Block[][] blocks;
+//	Block[][] blocks;
 	
 	Leveldesign level;
-	int levelnum = 0;
+	int levelnum = 2;
 	
 	public Game(String username) {
 		Collisions.referenceGame(this);
@@ -73,17 +73,20 @@ public class Game extends JFrame implements Runnable, KeyListener{
 		};
 		addKeyListener(spaceRestart);
 		
+		
+		
 		startNewGame();
 	}
 	
 	public void run() {
-
+		leben = 3;
+		
 		int i = 0;
 		while (true) {
 			i++;
 			try {
 				gamePaint.repaint();
-				Thread.sleep(1); 
+				Thread.sleep(2); 
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -107,10 +110,10 @@ public class Game extends JFrame implements Runnable, KeyListener{
 	}
 	
 	public void startNewGame() {
-		leben = 3;
+
 		bar = new Bar(xSize/2 - 80, ySize - 60, gamePaint.getWidth());
-//		ball gets build at newRound
-		
+
+		Item.listAll.removeAll(Item.listAll);
 		this.level = Leveldesign.listAll.get(this.levelnum);
 		
 		// read lvl and build blocks
@@ -120,7 +123,7 @@ public class Game extends JFrame implements Runnable, KeyListener{
 		level.blockySize = level.blockySize;
 		level.blockDistance = level.blockDistance;
 
-		blocks = new Block[level.blockrows][level.blockcolumns];
+		Block.all = new Block[level.blockrows][level.blockcolumns];
 		// scale Blocks to max?
 		if (true){
 			int blockAreaX = gamePaint.getWidth() - level.blockxStart * 2;
@@ -129,16 +132,16 @@ public class Game extends JFrame implements Runnable, KeyListener{
 		
 		for(int r=0; r<level.blockrows; r++){
 			for(int c=0; c<level.blockcolumns; c++){
-				blocks[r][c] = new Block(level.blockxStart + c*level.blockxSize + c*level.blockDistance,
+				Block.all[r][c] = new Block(level.blockxStart + c*level.blockxSize + c*level.blockDistance,
 						level.blockyStart + r*level.blockySize + r*level.blockDistance,
 						level.blockxSize,
 						level.blockySize);
 				try{
-					blocks[r][c].state = level.map[r][c];
+					Block.all[r][c].state = level.map[r][c];
 				}catch(ArrayIndexOutOfBoundsException mapempty){
 					// wenn level.map zu klein
 					try{
-						blocks[r][c].state = 0;
+						Block.all[r][c].state = 0;
 					}catch(ArrayIndexOutOfBoundsException blockAraayIndex){}
 					// wenn blocks zu klein
 					
@@ -163,7 +166,7 @@ public class Game extends JFrame implements Runnable, KeyListener{
 		lebenlabel.setText("Leben: " + leben);
 	}
 	
-public void gameOver(){
+	public void gameOver(){
 		ball.vy = 0;
 		ball.vx = 0;
 		gameOver.setVisible(true);
@@ -173,7 +176,18 @@ public void gameOver(){
 		bar.right= false;
 		lebenlabel.setText("Leben: " + leben);
 	}
-
+	
+	public void checkWinningGame(){
+		for (Block[] row : Block.all){
+			for(Block b : row){
+				if (b.state != 0)
+					return;
+			}
+		}
+		// new lvl:
+		levelnum++;
+		startNewGame();
+	}
 
 	public Block getBlockByKords(int x, int y){
 		int x2edge = x - level.blockxStart;
@@ -185,7 +199,7 @@ public void gameOver(){
 		int row = y2edge/areaY;
 
 		try{
-			return blocks[row][column];
+			return Block.all[row][column];
 		}catch(ArrayIndexOutOfBoundsException aioob){
 			return null;
 		}

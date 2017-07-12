@@ -101,21 +101,25 @@ public class Collisions{
 		if (north != null && north.state != 0){
 			north.hit();
 			g.ball.vy = Math.abs(g.ball.vy);
+			g.checkWinningGame();
 		}
 		// from top 
-		else if (south != null && south.state != 0){
+		if (south != null && south.state != 0){
 			south.hit();
 			g.ball.vy = Math.abs(g.ball.vy) * -1;
+			g.checkWinningGame();
 		}
 		// from right
-		else if (west != null && west.state != 0){
+		if (west != null && west.state != 0){
 			west.hit();
 			g.ball.vx = Math.abs(g.ball.vy);
+			g.checkWinningGame();
 		}
 		// from left
-		else if (east != null && east.state != 0){
+		if (east != null && east.state != 0){
 			east.hit();
 			g.ball.vx = Math.abs(g.ball.vx) * -1;
+			g.checkWinningGame();
 		}
 	}
 
