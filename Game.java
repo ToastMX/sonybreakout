@@ -39,9 +39,13 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	int blockDistance = 6;
 
 	int startAnimationClock = 1000; // Frames startanimation
-
+	
+	Leveldesign level;
+	int levelnum = 0;
+	
 	public Game(String username) {
 		Collisions.referenceGame(this);
+		Leveldesign.readFile("lvldata.json");
 
 		Thread = new Thread(this, username);
 		c = getContentPane();
@@ -131,26 +135,30 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 //		ball gets build at newRound
 		
 		
+		this.level = Leveldesign.listAll.get(this.levelnum);
+		
 		// read lvl and build blocks
-		String[] designRows = leveldesign.lvl2.split(",");
-		this.blockrows = designRows.length;
-		this.blockcolumns = designRows[0].length();
+		this.blockrows = level.map.length;
+		this.blockcolumns = level.map[0].length;
+		
+		this.blockySize = level.blockySize;
+		this.blockDistance = level.blockDistance;
 
 		blocks = new Block[blockrows][blockcolumns];
 		// scale Blocks to max?
 		if (true){
 			int blockAreaX = gamePaint.getWidth() - blockxStart * 2;
-			this.blockxSize = blockAreaX / blocks[0].length - this.blockDistance;
+			this.blockxSize = blockAreaX / blockcolumns - this.blockDistance;
 		}
 		
-		for(int r=0; r<=designRows.length-1; r++){
-			String[] designCollumns = designRows[r].split("");
-			for(int c=0; c<=designCollumns.length-1; c++){
+		for(int r=0; r<blockrows; r++){
+			for(int c=0; c<blockcolumns; c++){
 				blocks[r][c] = new Block(blockxStart + c*blockxSize + c*blockDistance,
 						blockyStart + r*blockySize + r*blockDistance,
 						blockxSize,
 						blockySize);
-				blocks[r][c].state = Integer.parseInt(designCollumns[c]);
+				System.out.println(level.map[r][c]);
+				blocks[r][c].state = level.map[r][c];
 			}
 		}
 		

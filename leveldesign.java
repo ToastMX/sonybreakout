@@ -18,40 +18,40 @@ import java.util.List;
 
 
 
-public class leveldesign {
+public class Leveldesign {
 	
-	public static String JSON_PATH = "/Users/dawid/Workspace/Test/test.json";
+	public int id;
+	public int[][] map;
+	public int blocksize;
+	public String blockposition;
+	public String name;
+	public int blockrows;
+	public int blockcolumns;
+	public int blockxStart;
+	public int blockyStart;
+	public int blockxSize;
+	public int blockySize;
+	public int blockDistance;
 	
-	public leveldesign(int lvlNum){
+	
+	public Leveldesign(int lvlNum){
 		
 	}
 	
-	private void readFile(){
+	public static List<Leveldesign> listAll;
+	
+	public static void readFile(String filepath){
 		Gson gson = new Gson();
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(JSON_PATH));
-			Type type = new TypeToken<List<leveldesign>>(){}.getType();
-			List<leveldesign> models = gson.fromJson(br, type);
+			BufferedReader br = new BufferedReader(new FileReader(filepath));
+			Type type = new TypeToken<List<Leveldesign>>(){}.getType();
+			listAll = gson.fromJson(br, type);
+			System.out.println(listAll.get(0).name);
 		}catch(java.io.FileNotFoundException fff){
-			
+			 System.out.println(
+			            "Unable to open file '" + 
+			            filepath + "'");        
 		}
-		
 	}
-	
-	
-	
-	static String lvl1 =  "11111111111111111,"
-						+ "11111111111111111,"
-						+ "12222222222222221,"
-						+ "12333333333333321,"
-						+ "12222222222222221,"
-						+ "11111111111111111";
-	
-	static String lvl2 =  "111110,"
-			+ "111110,"
-			+ "122210,"
-			+ "120310,"
-			+ "122211,"
-			+ "111110";
 	
 }
