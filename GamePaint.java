@@ -10,15 +10,13 @@ public class GamePaint extends JPanel{
 
 	public GamePaint(Game game){
 		this.game = game;
-		
-		
+		this.setBackground(new Color (216,191,216));
 	}
 
 	//Painting Everything
 	protected void paintComponent(Graphics g){
 		
 		super.paintComponent(g);
-		
 		int blockcount = 0;
 		
 		// Rectangles
