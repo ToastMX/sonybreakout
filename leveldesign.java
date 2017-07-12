@@ -8,7 +8,7 @@
  */
 
 import java.io.BufferedReader;
-import java.io.FileReader;#
+import java.io.FileReader;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
@@ -47,11 +47,11 @@ public class leveldesign {
 						+ "12222222222222221,"
 						+ "11111111111111111";
 	
-	static String lvl2 =  "11111,"
-			+ "11111,"
-			+ "12221,"
-			+ "12331,"
-			+ "12221,"
-			+ "11111";
+	static String lvl2 =  "111110,"
+			+ "111110,"
+			+ "122210,"
+			+ "120310,"
+			+ "122211,"
+			+ "111110";
 	
 }

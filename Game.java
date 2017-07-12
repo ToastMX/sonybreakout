@@ -18,7 +18,6 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 	JLabel lebenlabel;
 	int leben;
-	boolean roundstarted = false;
 
 	Thread Thread;
 
@@ -43,7 +42,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 	public Game(String username) {
 		Collisions.referenceGame(this);
-		
+
 		Thread = new Thread(this, username);
 		c = getContentPane();
 
@@ -53,21 +52,22 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		setTitle(username + "'s" + " Game");
 		setLocation(xLoc, yLoc);
 		setResizable(false);
-		
+
 		gamePaint = new GamePaint(this);
 		c.add(gamePaint);
-		
+
 		KeyListener upRoundStart = new KeyListener(){
 			public void keyPressed(KeyEvent ke){
-				if(ke.getKeyCode() == 38 & !roundstarted){
-					roundstarted = true;
+				if(ke.getKeyCode() == 38 && bar.catchBall != null){
+					bar.catchBall.vy = bar.catchBall.vyst;
+					bar.catchBall = null;
 				}
 			}
 			public void keyReleased(KeyEvent arg0) {}
 			public void keyTyped(KeyEvent e) {}
 		};
 		addKeyListener(upRoundStart);
-		
+
 		lebenlabel = new JLabel("Leben: " + leben);
 		gamePaint.add(lebenlabel);
 		gameOver = new JLabel("Game Over");
@@ -75,9 +75,9 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		restart = new JButton("Restart");
 		gamePaint.add(restart);
 		restart.addActionListener(this);
-		
+
 		this.setFocusable(true);
-		
+
 		KeyListener spaceRestart = new KeyListener(){
 			public void keyPressed(KeyEvent ke) {
 				if(ke.getKeyCode() == KeyEvent.VK_SPACE & restart.isVisible()){
@@ -90,11 +90,11 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		addKeyListener(spaceRestart);
 
 		startNewGame();
-		
+
 	}
 
 	public void run() {
-		
+
 		int i = 0;
 		while (true) {
 			i++;
@@ -104,34 +104,16 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 			if (startAnimationClock > 0){
 				startAnimationClock -= 1;
 			}
-			
+
 			if (i % 3 == 0){
 				bar.move();
-				if(!roundstarted){
-					if (bar.xPos >= 0){
-						ball.xPos = (int) (bar.xPos + (bar.xSize)/ 2) - 13;
-					}
-					else{
-						ball.xPos = 1;
-					}
-					if (bar.upright.x >= xSize){
-						ball.xPos = gamePaint.getWidth() - 1 - ball.xSize;
-					}
-					
-					ball.yPos = (int) (bar.yPos - 26);
-					
-					ball.north = new Point(ball.xPos + ball.xSize/2, ball.yPos);
-					ball.east = new Point (ball.xPos + ball.xSize, ball.yPos + ball.ySize/2);
-					ball.south = new Point(ball.xPos + ball.xSize/2, ball.yPos + ball.ySize);
-					ball.west = new Point(ball.xPos, ball.yPos + ball.ySize/2);
-				}
 				
 			}
-			if  (i % 5 == 0 && roundstarted){
+			if  (i % 5 == 0){
 				ball.move();
 				Collisions.ballFrameCollision();
 				Collisions.ballBarCollision();
@@ -139,12 +121,12 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 			}
 		}
 	}
-	
-	public void startNewGame() {
-		roundstarted = false;
-		leben = 3;
 
-		bar = new Bar(xSize/2 - 80, ySize - 60, xSize);
+	public void startNewGame() {
+		//bar.catchBall = null;
+		leben = 3;
+		
+		bar = new Bar(xSize/2 - 80, ySize - 60, gamePaint.getWidth());
 //		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos - 26));
 //		ball gets build at newRound
 		
@@ -153,6 +135,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		String[] designRows = leveldesign.lvl2.split(",");
 		this.blockrows = designRows.length;
 		this.blockcolumns = designRows[0].length();
+
 		blocks = new Block[blockrows][blockcolumns];
 		// scale Blocks to max?
 		if (true){
@@ -177,21 +160,21 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		restart.setVisible(false); 	// restart knopf
 		gameOver.setVisible(false);	// gamoversign
 		this.addKeyListener(this);	// make bar active
-		
+
 		startNewRound();
 
 	}
-
 	public void startNewRound(){
-		roundstarted = false; //wait until top arrow is pressed
 		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos) - 26);
+		bar.catchBall = ball;
 		lebenlabel.setText("Leben: " + leben);
 	}
+
 
 	public Block getBlockByKords(int x, int y){
 		int x2edge = x - blockxStart;
 		int areaX = blockxSize + blockDistance;
-		int column = x2edge/areaX;
+		int column = Math.floorDiv(x2edge, areaX);
 
 		int y2edge = y - blockyStart;
 		int areaY = blockySize + blockDistance;

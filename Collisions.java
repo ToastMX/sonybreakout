@@ -121,4 +121,5 @@ public class Collisions{
 			g.ball.vx = Math.abs(g.ball.vx) * -1;
 		}
 	}
+
 }
