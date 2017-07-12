@@ -148,27 +148,30 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 //		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos - 26));
 //		ball gets build at newRound
 		
+		
+		// read lvl and build blocks
+		String[] designRows = leveldesign.lvl2.split(",");
+		this.blockrows = designRows.length;
+		this.blockcolumns = designRows[0].length();
 		blocks = new Block[blockrows][blockcolumns];
-
-		for(int y=0; y<=blocks.length-1; y++){
-			for(int x=0; x<=blocks[y].length-1; x++){
-				blocks[y][x] = new Block(blockxStart + x*blockxSize + x*blockDistance,
-						blockyStart + y*blockySize + y*blockDistance,
-						blockxSize,
-						blockySize);
-			}
+		// scale Blocks to max?
+		if (true){
+			int blockAreaX = gamePaint.getWidth() - blockxStart * 2;
+			this.blockxSize = blockAreaX / blocks[0].length - this.blockDistance;
 		}
-
-		String[] designRows = leveldesign.lvl1.split(",");
+		
 		for(int r=0; r<=designRows.length-1; r++){
-			System.out.println(designRows[r]);
 			String[] designCollumns = designRows[r].split("");
 			for(int c=0; c<=designCollumns.length-1; c++){
-				System.out.println(designCollumns[c]);
+				blocks[r][c] = new Block(blockxStart + c*blockxSize + c*blockDistance,
+						blockyStart + r*blockySize + r*blockDistance,
+						blockxSize,
+						blockySize);
 				blocks[r][c].state = Integer.parseInt(designCollumns[c]);
 			}
 		}
-
+		
+		
 
 
 		restart.setVisible(false); 	// restart knopf
