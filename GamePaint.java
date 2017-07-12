@@ -49,11 +49,15 @@ public class GamePaint extends JPanel{
 		try {
 			g.fillOval(game.ball.xPos, game.ball.yPos, game.ball.xSize, game.ball.ySize);	
 		}catch(NullPointerException a){}
+		
 		//Items
 		g.setColor(Color.RED);
+		//oh
 		for(Item i: Item.listAll){
 			g.fillRect(i.xPos, i.yPos, i.xSize, i.ySize);
 		}
 		g.setColor(Color.BLACK);
+		//yeah
 	}
+	
 }
