@@ -8,12 +8,12 @@ public class Ball {
 	Point north, east, south, west;
 	
 
-	public Ball(int startXPos, int startYPos){
+	public Ball(int startXPos, int startYPos, int setXSize, int setYSize){
 
 		xPos = startXPos;
 		yPos = startYPos;
-		xSize = 26;
-		ySize = 26;
+		xSize = setXSize;
+		ySize = setYSize;
 		vx = 0;
 		vy = 0;
 

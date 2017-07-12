@@ -30,16 +30,6 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	Ball ball;
 	Bar bar;
 	Block[][] blocks;
-
-	int blockrows = 7;
-	int blockcolumns = 17;
-	int blockxStart = 100;
-	int blockyStart = 100;
-	int blockxSize = 60;
-	int blockySize = 25;
-	int blockDistance = 6;
-
-	int startAnimationClock = 1000; // Frames startanimation
 	
 	Leveldesign level;
 	int levelnum = 0;
@@ -60,7 +50,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 		gamePaint = new GamePaint(this);
 		c.add(gamePaint);
-
+		
 		KeyListener upRoundStart = new KeyListener(){
 			public void keyPressed(KeyEvent ke){
 				if(ke.getKeyCode() == 38 && bar.catchBall != null){
@@ -80,7 +70,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		restart = new JButton("Restart");
 		gamePaint.add(restart);
 		restart.addActionListener(this);
-
+		
 		this.setFocusable(true);
 
 		KeyListener spaceRestart = new KeyListener(){
@@ -110,8 +100,8 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 				e.printStackTrace();
 			}
 
-			if (startAnimationClock > 0){
-				startAnimationClock -= 1;
+			if (level.startAnimationClock > 0){
+				level.startAnimationClock -= 1;
 			}
 
 			if (i % 3 == 0){
@@ -141,28 +131,36 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		this.level = Leveldesign.listAll.get(this.levelnum);
 		
 		// read lvl and build blocks
-		this.blockrows = level.map.length;
-		this.blockcolumns = level.map[0].length;
+		level.blockrows = level.map.length;
+		level.blockcolumns = level.map[0].length;
 		
-		this.blockySize = level.blockySize;
-		this.blockDistance = level.blockDistance;
+		level.blockySize = level.blockySize;
+		level.blockDistance = level.blockDistance;
 
-		blocks = new Block[blockrows][blockcolumns];
+		blocks = new Block[level.blockrows][level.blockcolumns];
 		// scale Blocks to max?
 		if (true){
-			int blockAreaX = gamePaint.getWidth() - blockxStart * 2;
-			this.blockxSize = blockAreaX / blockcolumns - this.blockDistance;
+			int blockAreaX = gamePaint.getWidth() - level.blockxStart * 2;
+			level.blockxSize = blockAreaX / level.blockcolumns - level.blockDistance;
 		}
 		
-		for(int r=0; r<blockrows; r++){
-			for(int c=0; c<blockcolumns; c++){
-
-				blocks[r][c] = new Block(blockxStart + c*blockxSize + c*blockDistance,
-						blockyStart + r*blockySize + r*blockDistance,
-						blockxSize,
-						blockySize);
-				System.out.println(level.map[r][c]);
-				blocks[r][c].state = level.map[r][c];
+		for(int r=0; r<level.blockrows; r++){
+			for(int c=0; c<level.blockcolumns; c++){
+				blocks[r][c] = new Block(level.blockxStart + c*level.blockxSize + c*level.blockDistance,
+						level.blockyStart + r*level.blockySize + r*level.blockDistance,
+						level.blockxSize,
+						level.blockySize);
+				try{
+					blocks[r][c].state = level.map[r][c];
+				}catch(ArrayIndexOutOfBoundsException mapempty){
+					// wenn level.map zu klein
+					try{
+						blocks[r][c].state = 0;
+					}catch(ArrayIndexOutOfBoundsException blockAraayIndex){}
+					// wenn blocks zu klein
+					
+				}
+				
 			}
 		}
 
@@ -177,7 +175,11 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 	}
 	public void startNewRound(){
-		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos) - 26);
+		ball = new Ball(
+				(int)(bar.xPos + (bar.xSize)/ 2) - 13, 
+				(int)(bar.yPos) - 26,
+				level.ballXSize,
+				level.ballYSize);
 		bar.catchBall = ball;
 		lebenlabel.setText("Leben: " + leben);
 	}
@@ -203,12 +205,12 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	}
 
 	public Block getBlockByKords(int x, int y){
-		int x2edge = x - blockxStart;
-		int areaX = blockxSize + blockDistance;
+		int x2edge = x - level.blockxStart;
+		int areaX = level.blockxSize + level.blockDistance;
 		int column = Math.floorDiv(x2edge, areaX);
 
-		int y2edge = y - blockyStart;
-		int areaY = blockySize + blockDistance;
+		int y2edge = y - level.blockyStart;
+		int areaY = level.blockySize + level.blockDistance;
 		int row = y2edge/areaY;
 
 		try{

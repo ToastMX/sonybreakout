@@ -27,7 +27,7 @@ public class GamePaint extends JPanel{
 //				System.out.println((int)(Math.pow((float)game.startAnimationClock/(float)500,2.0) * 100));
 //				if (game.blocks[y][x].state == 0 || (1000-game.startAnimationClock) - blockcount * 8 < 0 )
 				if (game.blocks[y][x].state == 0 
-						|| (int)(Math.random() * 100) < (int)(Math.pow((float)game.startAnimationClock/(float)5000,2.0) * 100))
+						|| (int)(Math.random() * 100) < (int)(Math.pow((float)game.level.startAnimationClock/(float)5000,2.0) * 100))
 					continue;
 				else if (game.blocks[y][x].state == 1)
 					g.setColor(Color.BLACK);
@@ -49,11 +49,10 @@ public class GamePaint extends JPanel{
 		try {
 			g.fillOval(game.ball.xPos, game.ball.yPos, game.ball.xSize, game.ball.ySize);	
 		}catch(NullPointerException a){}
-		//Items
-		g.setColor(Color.RED);
-		for(Item i: Item.listAll){
-			g.fillRect(i.xPos, i.yPos, i.xSize, i.ySize);
-		}
-		g.setColor(Color.BLACK);
+			
+			
+			
+			
+			
 	}
 }
