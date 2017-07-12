@@ -2,7 +2,6 @@ public class Ball {
 
 	int xPos, yPos, xSize, ySize, dir = 1, vx, vy, vxst = 2, vyst = 4;
 												 //st = standard
-	int xTo, yTo; // target values for changeSize Methode
 	
 	// Himmelsrichtungen Punkte Ball
 	Point north, east, south, west;
@@ -21,7 +20,6 @@ public class Ball {
 		east = new Point (xPos + xSize, yPos + ySize/2);
 		south = new Point(xPos + xSize/2, yPos + ySize);
 		west = new Point(xPos, yPos + ySize/2);
-		
 	}
 	
 	public void move() {			
@@ -32,8 +30,12 @@ public class Ball {
 		
 	}
 	
-	public void changeSize(int xTo, int yTo){
-		this.xTo = xTo;
-		this.yTo = yTo;
+	public void setSize(int xTo, int yTo){
+		xSize = xTo;
+		ySize = yTo;
+		north.setPoint(xPos + xSize/2, yPos);
+		east.setPoint(xPos + xSize, yPos + ySize/2);
+		south.setPoint(xPos + xSize/2, yPos + ySize);
+		west.setPoint(xPos, yPos + ySize/2);
 	}
 }

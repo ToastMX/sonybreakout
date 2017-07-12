@@ -46,15 +46,15 @@ public class Leveldesign {
 		name 			= name 			!= null ? name : "";
 		blockposition 	= blockposition != null ? blockposition : "max";
 		
-		blockrows 		= blockrows 	!= 0 ? blockrows : 7;
-		blockcolumns 	= blockcolumns 	!= 0 ? blockcolumns : 17;
-		blockxStart 	= blockxStart 	!= 0 ? blockxStart : 100;
-		blockyStart 	= blockyStart 	!= 0 ? blockyStart : 100;
-		blockxSize 		= blockxSize 	!= 0 ? blockxSize : 60;
-		blockySize 		= blockySize 	!= 0 ? blockySize : 25;
-		blockDistance 	= blockDistance != 0 ? blockDistance : 6;
-		ballXSize		= ballXSize 	!= 0 ? ballXSize : 26;
-		ballYSize		= ballYSize 	!= 0 ? ballYSize : 26;
+		blockrows 		= blockrows != 0 		? blockrows 	: 7;
+		blockcolumns 	= blockcolumns != 0 	? blockcolumns 	: 17;
+		blockxStart 	= blockxStart != 0 		? blockxStart 	: 100;
+		blockyStart 	= blockyStart != 0 		? blockyStart 	: 100;
+		blockxSize 		= blockxSize != 0 		? blockxSize 	: 60;
+		blockySize 		= blockySize != 0 		? blockySize 	: 25;
+		blockDistance 	= blockDistance != 0 	? blockDistance : 6;
+		ballXSize		= ballXSize != 0 		? ballXSize 	: 26;
+		ballYSize		= ballYSize != 0 		? ballYSize 	: 26;
 		
 	}
 	
@@ -66,10 +66,11 @@ public class Leveldesign {
 			BufferedReader br = new BufferedReader(new FileReader(filepath));
 			Type type = new TypeToken<List<Leveldesign>>(){}.getType();
 			listAll = gson.fromJson(br, type);
+
 			for (Leveldesign l : listAll){
 				l.setDefaults();
 			}
-			// System.out.println(listAll.get(0).name);
+
 		}catch(java.io.FileNotFoundException fff){
 			 System.out.println(
 			            "Unable to open file '" + 

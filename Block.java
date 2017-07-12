@@ -1,23 +1,25 @@
 public class Block {
 
 	int  xPos, yPos, xSize, ySize, state, row, column;
-	static int rectCount;
+	static double itemDropProp = 0.9;
 	
-	
+
 
 	public Block (int xPos, int yPos, int xSize, int ySize){
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.xSize = xSize;
 		this.ySize = ySize;
-		
+
 		// 0:gone 1, 2, 3
 		this.state = 1;
 	}	
-	
+
 	public void hit(){
-	state--;
-	Item.listAll.add(new Item(xPos + xSize/2, yPos + ySize));
+		state--;
+		if(Math.random() < Block.itemDropProp){
+			Item.listAll.add(new Item(xPos + xSize/2, yPos + ySize));
+		}
 	}
-	
+
 }

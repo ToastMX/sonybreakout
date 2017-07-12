@@ -9,9 +9,8 @@ public class Item {
 	public Item(int xPos, int yPos){
 		this.xPos = xPos;
 		this.yPos = yPos;
-		this.effect = (int) Math.random()*6 + 1;
+		this.effect = (int) (Math.random()*6 + 1);
 				
-		
 		upleft = new Point(xPos, yPos);
 		upright = new Point(xPos + xSize, yPos);
 		downleft = new Point(xPos, yPos + ySize);
@@ -20,25 +19,35 @@ public class Item {
 	
 	public static void moveall(){
 		for (Item i : listAll){
-			i.yPos += i.vy;
-			i.pointsAdjust();
+			i.move();
 		}
 	}
 	
-//	public void start(){
-//		yPos += vy;
-//		pointAdjust();
-//	}
+	public void move(){
+		yPos += vy;	
+		upleft.setPoint(xPos, yPos);
+		upright.setPoint(xPos + xSize, yPos);
+		downleft.setPoint(xPos, yPos + ySize);
+		downright.setPoint(xPos + xSize, yPos + ySize);
+	}
 	
-	public void pointsAdjust(){
-		upleft.x = xPos;
-		upleft.y = yPos;
-		upright.x = xPos + xSize;
-		upright.y = yPos;
-		downleft.x = xPos;
-		downleft.y = yPos + ySize;
-		downright.x = xPos + xSize;
-		downright.y = yPos + ySize;
+	public void effect(Ball ball) {
+
+		//TODO
+		switch(effect){
+		case 1: ball.setSize(ball.xSize*5, ball.ySize*5);
+			break;
+		case 2: ball.setSize((int) (ball.xSize*0.1), (int) (ball.ySize*0.1));
+			break;
+		case 3: ball.setSize(ball.xSize*5, ball.ySize*5);
+			break;
+		case 4: ball.setSize(ball.xSize*5, ball.ySize);
+			break;
+		case 5: ball.setSize(ball.xSize, ball.ySize*5);;
+			break;
+		case 6: //Nothing
+			break;
+		}
 	}
 	
 }
