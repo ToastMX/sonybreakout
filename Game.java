@@ -46,7 +46,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	
 	public Game(String username) {
 		Collisions.referenceGame(this);
-		Leveldesign.readFile("lvldata.json");
+		Leveldesign.readFile("src/lvldata.json");
 
 		Thread = new Thread(this, username);
 		c = getContentPane();
