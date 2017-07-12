@@ -46,6 +46,13 @@ public class GamePaint extends JPanel{
 		//The Bar
 		g.fillRect(game.bar.xPos, game.bar.yPos, game.bar.xSize, game.bar.ySize);
 		//The Ball
-		g.fillOval(game.ball.xPos, game.ball.yPos, game.ball.xSize, game.ball.ySize);		
+		try {
+			g.fillOval(game.ball.xPos, game.ball.yPos, game.ball.xSize, game.ball.ySize);	
+		}catch(NullPointerException a){}
+			
+			
+			
+			
+			
 	}
 }

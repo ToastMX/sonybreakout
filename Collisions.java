@@ -27,9 +27,7 @@ public class Collisions{
 				g.bar.right= false;
 				g.lebenlabel.setText("Leben: " + g.leben);
 			}else if(g.leben > 0){
-				g.roundstarted = false;
-				g.ball = new Ball( (int) ( g.bar.xPos + (g.bar.xSize)/ 2) - 13, (int) (g.bar.yPos) - 26);
-				g.lebenlabel.setText("Leben: " + g.leben);
+				g.startNewRound();
 			}
 		}else if (g.ball.yPos <= 0)
 			g.ball.vy = -1 * g.ball.vy;

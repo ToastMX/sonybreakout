@@ -17,7 +17,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	JLabel gameOver;
 
 	JLabel lebenlabel;
-	int leben = 3;
+	int leben;
 	boolean roundstarted = false;
 
 	Thread Thread;
@@ -42,6 +42,8 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	int startAnimationClock = 1000; // Frames startanimation
 
 	public Game(String username) {
+		Collisions.referenceGame(this);
+		
 		Thread = new Thread(this, username);
 		c = getContentPane();
 
@@ -51,13 +53,10 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		setTitle(username + "'s" + " Game");
 		setLocation(xLoc, yLoc);
 		setResizable(false);
-
+		
 		gamePaint = new GamePaint(this);
 		c.add(gamePaint);
-
-		lebenlabel = new JLabel("Leben: " + leben);
-		gamePaint.add(lebenlabel);
-
+		
 		KeyListener upRoundStart = new KeyListener(){
 			public void keyPressed(KeyEvent ke){
 				if(ke.getKeyCode() == 38 & !roundstarted){
@@ -68,15 +67,17 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 			public void keyTyped(KeyEvent e) {}
 		};
 		addKeyListener(upRoundStart);
-
+		
+		lebenlabel = new JLabel("Leben: " + leben);
+		gamePaint.add(lebenlabel);
 		gameOver = new JLabel("Game Over");
-		gameOver.setVisible(false);
 		gamePaint.add(gameOver);
-
 		restart = new JButton("Restart");
-		restart.setVisible(false);
 		gamePaint.add(restart);
 		restart.addActionListener(this);
+		
+		this.setFocusable(true);
+		
 		KeyListener spaceRestart = new KeyListener(){
 			public void keyPressed(KeyEvent ke) {
 				if(ke.getKeyCode() == KeyEvent.VK_SPACE & restart.isVisible()){
@@ -88,12 +89,65 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		};
 		addKeyListener(spaceRestart);
 
-		addKeyListener(this);
-		this.setFocusable(true);
+		startNewGame();
+		
+	}
+
+	public void run() {
+		
+		int i = 0;
+		while (true) {
+			i++;
+			try {
+				gamePaint.repaint();
+				Thread.sleep(1); 
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			if (startAnimationClock > 0){
+				startAnimationClock -= 1;
+			}
+			
+			if (i % 3 == 0){
+				bar.move();
+				if(!roundstarted){
+					if (bar.xPos >= 0){
+						ball.xPos = (int) (bar.xPos + (bar.xSize)/ 2) - 13;
+					}
+					else{
+						ball.xPos = 1;
+					}
+					if (bar.upright.x >= xSize){
+						ball.xPos = gamePaint.getWidth() - 1 - ball.xSize;
+					}
+					
+					ball.yPos = (int) (bar.yPos - 26);
+					
+					ball.north = new Point(ball.xPos + ball.xSize/2, ball.yPos);
+					ball.east = new Point (ball.xPos + ball.xSize, ball.yPos + ball.ySize/2);
+					ball.south = new Point(ball.xPos + ball.xSize/2, ball.yPos + ball.ySize);
+					ball.west = new Point(ball.xPos, ball.yPos + ball.ySize/2);
+				}
+				
+			}
+			if  (i % 5 == 0 && roundstarted){
+				ball.move();
+				Collisions.ballFrameCollision();
+				Collisions.ballBarCollision();
+				Collisions.ballBlockCollision();
+			}
+		}
+	}
+	
+	public void startNewGame() {
+		roundstarted = false;
+		leben = 3;
 
 		bar = new Bar(xSize/2 - 80, ySize - 60, xSize);
-		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos - 26));
-
+//		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos - 26));
+//		ball gets build at newRound
+		
 		blocks = new Block[blockrows][blockcolumns];
 
 		for(int y=0; y<=blocks.length-1; y++){
@@ -114,59 +168,22 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 				blocks[r][c].state = Integer.parseInt(designCollumns[c]);
 			}
 		}
-		Collisions.referenceGame(this);
+
+
+
+		restart.setVisible(false); 	// restart knopf
+		gameOver.setVisible(false);	// gamoversign
+		this.addKeyListener(this);	// make bar active
+		
+		startNewRound();
+
 	}
 
-	public void run() {
-
-
-
-		int i = 0;
-		while (true) {
-			i++;
-			try {
-				gamePaint.repaint();
-				Thread.sleep(1); 
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-			if (startAnimationClock > 0){
-				startAnimationClock -= 1;
-			}
-
-			if (i % 3 == 0){
-				bar.move();
-				if(!roundstarted){
-					if (bar.xPos >= 0){
-						ball.xPos = (int) (bar.xPos + (bar.xSize)/ 2) - 13;
-					}
-					else{
-						ball.xPos = 1;
-					}
-					if (bar.upright.x >= xSize){
-						ball.xPos = gamePaint.getWidth() - 1 - ball.xSize;
-					}
-					ball.yPos = (int) (bar.yPos - 26);
-
-					ball.north = new Point(ball.xPos + ball.xSize/2, ball.yPos);
-					ball.east = new Point (ball.xPos + ball.xSize, ball.yPos + ball.ySize/2);
-					ball.south = new Point(ball.xPos + ball.xSize/2, ball.yPos + ball.ySize);
-					ball.west = new Point(ball.xPos, ball.yPos + ball.ySize/2);
-
-				}
-
-			}
-			if  (i % 5 == 0 && roundstarted){
-				ball.move();
-				Collisions.ballFrameCollision();
-				Collisions.ballBarCollision();
-				Collisions.ballBlockCollision();
-			}
-		}
+	public void startNewRound(){
+		roundstarted = false; //wait until top arrow is pressed
+		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos) - 26);
+		lebenlabel.setText("Leben: " + leben);
 	}
-
-
 
 	public Block getBlockByKords(int x, int y){
 		int x2edge = x - blockxStart;
@@ -186,31 +203,11 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 	// Restart Button
 	public void actionPerformed(ActionEvent e) {
-		roundstarted = false;
-		leben = 3;
-		lebenlabel.setText("Leben: " + leben);
-		bar = new Bar(xSize/2 - 80, ySize - 60, xSize);
-		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos) - 26);
-
-		blocks = new Block[blockrows][blockcolumns];
-		for(int y=0; y<=blocks.length-1; y++){
-			for(int x=0; x<=blocks[y].length-1; x++){
-				blocks[y][x] = new Block(blockxStart + x*blockxSize + x*blockDistance,
-						blockyStart + y*blockySize + y*blockDistance,
-						blockxSize,
-						blockySize);
-			}
-		}
-
-		restart.setVisible(false);
-		gameOver.setVisible(false);
-		this.addKeyListener(this);
-
+		startNewGame();
 	}
 
 	// Movement of Bar (Key-Listener)
 	public void keyPressed(KeyEvent e) {
-
 		if (e.getKeyCode() == 37) {
 			bar.left = true;
 			bar.right = false;
@@ -222,126 +219,12 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	}
 
 	public void keyReleased(KeyEvent e) {
-		bar.left = false;
-		bar.right = false;
+		if (e.getKeyCode() == 37) {
+			bar.left = false;
+		}
+		if (e.getKeyCode() == 39) {
+			bar.right = false;
+		}
 	}
 	public void keyTyped(KeyEvent e) {}
 }
-
-//public void ballFrameCollision(){
-//
-//	if(ball.east.x >= xSize){
-//		ball.vx = -1 * ball.vx;
-//	}else if (ball.west.x <= 0){
-//		ball.vx = -1 * ball.vx;
-//	}
-//
-//	//Ball hits ground
-//	if(ball.south.y >= gamePaint.getHeight()){
-//		--leben;
-//		if(leben == 0){
-//			ball.vy = 0;
-//			ball.vx = 0;
-//			gameOver.setVisible(true);
-//			restart.setVisible(true);
-//			removeKeyListener(this);
-//			bar.left = false;
-//			bar.right= false;
-//			lebenlabel.setText("Leben: " + leben);
-//		}else if(leben > 0){
-//			roundstarted = false;
-//			ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos) - 26);
-//			lebenlabel.setText("Leben: " + leben);
-//		}
-//	}else if (ball.yPos <= 0)
-//		ball.vy = -1 * ball.vy;
-//}
-
-//public void ballBarCollision(){
-//	// collision on top in bar range
-//	if (bar.upleft.x <= ball.south.x
-//			& bar.upright.x >= ball.south.x 
-//			& bar.y() <= ball.south.y 
-//			& bar.y() + bar.ySize >= ball.south.y){
-//
-//		ball.vy = Math.abs(ball.vy) * -1;
-//
-//
-//		if(ball.south.x < bar.xPos + 1*bar.xSize/7)
-//			ball.vx = - (int) (ball.vxst * 2);
-//
-//		else if(ball.south.x < bar.xPos + 2*bar.xSize/7)
-//			ball.vx = - (int) (ball.vxst * 1.5);
-//
-//		else if(ball.south.x < bar.xPos + 3*bar.xSize/7)
-//			ball.vx = - (int) (ball.vxst * 1);
-//
-//		else if(ball.south.x < bar.xPos + 4*bar.xSize/7)
-//			ball.vx =  (int) (ball.vxst * 0);
-//
-//		else if (ball.south.x < bar.xPos + 5*bar.xSize/7)
-//			ball.vx =  (int) (ball.vxst * 1);
-//
-//		else if(ball.south.x < bar.xPos + 6*bar.xSize/7)
-//			ball.vx =  (int) (ball.vxst * 1.5);
-//
-//		else if(ball.south.x < bar.xPos + 7*bar.xSize/7)
-//			ball.vx =  (int) (ball.vxst * 2);
-//
-//		//SPINGAME
-//		//			if(bar.left){
-//		//				ball.vx -= 1;
-//		//			}
-//		//			if(bar.right){
-//		//				ball.vx += 1;
-//		//			}
-//	}	
-//
-//	// collison left egde
-//	else if (bar.upleft.x < ball.east.x
-//			& bar.upright.x > ball.east.x 
-//			& bar.y() <= ball.east.y 
-//			& bar.downleft.y >= ball.east.y){
-//
-//		ball.vy = (ball.vy) * -1;
-//		ball.vx = (ball.vxst) * -3;
-//	}
-//	// collison right egde
-//	else if (bar.upleft.x < ball.west.x
-//			& bar.upright.x > ball.west.x 
-//			& bar.y() <= ball.west.y 
-//			& bar.downleft.y >= ball.west.y){
-//
-//		ball.vy = (ball.vy) * -1;
-//		ball.vx = (ball.vxst) * 3;
-//	}
-//}
-
-//public void ballBlockCollision(){
-//
-//	Block north = this.getBlockByKords(ball.north.x, ball.north.y);
-//	Block east = this.getBlockByKords(ball.east.x, ball.east.y);
-//	Block south = this.getBlockByKords(ball.south.x, ball.south.y);
-//	Block west = this.getBlockByKords(ball.west.x, ball.west.y);
-//
-//	// from bottom 
-//	if (north != null && north.state != 0){
-//		north.state -= 1;
-//		ball.vy = Math.abs(ball.vy);
-//	}
-//	// from top 
-//	else if (south != null && south.state != 0){
-//		south.state -= 1;
-//		ball.vy = Math.abs(ball.vy) * -1;
-//	}
-//	// from right
-//	else if (west != null && west.state != 0){
-//		west.state -= 1;
-//		ball.vx = Math.abs(ball.vy);
-//	}
-//	// from left
-//	else if (east != null && east.state != 0){
-//		east.state -= 1;
-//		ball.vx = Math.abs(ball.vx) * -1;
-//	}
-//}
