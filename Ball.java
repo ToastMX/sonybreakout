@@ -24,12 +24,6 @@ public class Ball {
 		
 	}
 	
-//	public void movewithbar(Bar bar){
-//		xPos  = (int) (bar.xPos + (bar.xSize)/ 2) - 13;
-//		yPos = (int) (bar.yPos - 26);
-//		
-//	}
-	
 	public void move() {			
 		xPos += vx;
 		yPos += vy;
@@ -43,3 +37,9 @@ public class Ball {
 		this.yTo = yTo;
 	}
 }
+
+//	public void movewithbar(Bar bar){
+//		xPos  = (int) (bar.xPos + (bar.xSize)/ 2) - 13;
+//		yPos = (int) (bar.yPos - 26);
+//		
+//	}
