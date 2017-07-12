@@ -46,7 +46,6 @@ public class Leveldesign {
 			BufferedReader br = new BufferedReader(new FileReader(filepath));
 			Type type = new TypeToken<List<Leveldesign>>(){}.getType();
 			listAll = gson.fromJson(br, type);
-			System.out.println(listAll.get(0).name);
 		}catch(java.io.FileNotFoundException fff){
 			 System.out.println(
 			            "Unable to open file '" + 

@@ -10,22 +10,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
-public class Game extends JFrame implements Runnable, KeyListener, ActionListener {
+public class Game extends JFrame implements Runnable, KeyListener{
 
 	Container c;
 	GamePaint gamePaint;
-	JButton restart;
-	JLabel gameOver;
-
-	JLabel lebenlabel;
-	int leben;
-
 	Thread Thread;
-
-	int xSize = 1300;
-	int ySize = 800;
-	int xLoc = 300;
-	int yLoc = 50;
+	JButton restart;
+	JLabel gameOver, lebenlabel;
+	
+	int xSize = 1300, ySize = 800, xLoc = 300, yLoc = 50, leben;
 
 	Ball ball;
 	Bar bar;
@@ -47,7 +40,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	public Game(String username) {
 		Collisions.referenceGame(this);
 		Leveldesign.readFile("src/lvldata.json");
-
+		
 		Thread = new Thread(this, username);
 		c = getContentPane();
 
@@ -61,28 +54,24 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		gamePaint = new GamePaint(this);
 		c.add(gamePaint);
 
-		KeyListener upRoundStart = new KeyListener(){
-			public void keyPressed(KeyEvent ke){
-				if(ke.getKeyCode() == 38 && bar.catchBall != null){
-					bar.catchBall.vy = bar.catchBall.vyst;
-					bar.catchBall = null;
-				}
-			}
-			public void keyReleased(KeyEvent arg0) {}
-			public void keyTyped(KeyEvent e) {}
-		};
-		addKeyListener(upRoundStart);
-
 		lebenlabel = new JLabel("Leben: " + leben);
 		gamePaint.add(lebenlabel);
 		gameOver = new JLabel("Game Over");
 		gamePaint.add(gameOver);
 		restart = new JButton("Restart");
 		gamePaint.add(restart);
-		restart.addActionListener(this);
 
 		this.setFocusable(true);
 
+		ActionListener restartListener = new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				startNewGame();
+			}
+		};
+		restart.addActionListener(restartListener);
+		
+		
+		
 		KeyListener spaceRestart = new KeyListener(){
 			public void keyPressed(KeyEvent ke) {
 				if(ke.getKeyCode() == KeyEvent.VK_SPACE & restart.isVisible()){
@@ -93,11 +82,10 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 			public void keyTyped(KeyEvent ke) {}
 		};
 		addKeyListener(spaceRestart);
-
+		
 		startNewGame();
-
 	}
-
+	
 	public void run() {
 
 		int i = 0;
@@ -116,7 +104,6 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 			if (i % 3 == 0){
 				bar.move();
-
 			}
 			if  (i % 5 == 0){
 				Item.moveall();
@@ -128,15 +115,11 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 			}
 		}
 	}
-
+	
 	public void startNewGame() {
-		//bar.catchBall = null;
 		leben = 3;
-
 		bar = new Bar(xSize/2 - 80, ySize - 60, gamePaint.getWidth());
-		
 //		ball gets build at newRound
-		
 		
 		this.level = Leveldesign.listAll.get(this.levelnum);
 		
@@ -161,48 +144,35 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 						blockyStart + r*blockySize + r*blockDistance,
 						blockxSize,
 						blockySize);
-				System.out.println(level.map[r][c]);
 				blocks[r][c].state = level.map[r][c];
 			}
 		}
-
-
-
 
 		restart.setVisible(false); 	// restart knopf
 		gameOver.setVisible(false);	// gamoversign
 		this.addKeyListener(this);	// make bar active
 
 		startNewRound();
-
 	}
-	public void startNewRound(){
+	
+public void startNewRound(){
 		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos) - 26);
 		bar.catchBall = ball;
 		lebenlabel.setText("Leben: " + leben);
 	}
-
-	public void effect(int effect) {
-		System.out.println("Effekt kan hier nun Programmiert werden :)");
-
-		//TODO
-		switch(effect){
-		case 1: //
-			break;
-		case 2: //
-			break;
-		case 3: //
-			break;
-		case 4: //
-			break;
-		case 5: //
-			break;
-		case 6: //
-			break;
-		}
+	
+public void gameOver(){
+		ball.vy = 0;
+		ball.vx = 0;
+		gameOver.setVisible(true);
+		restart.setVisible(true);
+		removeKeyListener(this);
+		bar.left = false;
+		bar.right= false;
+		lebenlabel.setText("Leben: " + leben);
 	}
 
-	public Block getBlockByKords(int x, int y){
+public Block getBlockByKords(int x, int y){
 		int x2edge = x - blockxStart;
 		int areaX = blockxSize + blockDistance;
 		int column = Math.floorDiv(x2edge, areaX);
@@ -218,11 +188,6 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		}
 	}
 
-	// Restart Button
-	public void actionPerformed(ActionEvent e) {
-		startNewGame();
-	}
-
 	// Movement of Bar (Key-Listener)
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == 37) {
@@ -232,6 +197,13 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		if (e.getKeyCode() == 39) {
 			bar.left = false;
 			bar.right = true;
+		}
+		if(e.getKeyCode() == 38 && bar.catchBall != null){
+			bar.catchBall.vy = bar.catchBall.vyst;
+			bar.catchBall = null;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_SPACE & restart.isVisible()){
+			restart.doClick();
 		}
 	}
 
@@ -244,5 +216,4 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		}
 	}
 	public void keyTyped(KeyEvent e) {}
-
 }

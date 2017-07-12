@@ -21,14 +21,7 @@ public class Collisions{
 		if(g.ball.south.y >= g.gamePaint.getHeight()){
 			--g.leben;
 			if(g.leben == 0){
-				g.ball.vy = 0;
-				g.ball.vx = 0;
-				g.gameOver.setVisible(true);
-				g.restart.setVisible(true);
-				g.removeKeyListener(g);
-				g.bar.left = false;
-				g.bar.right= false;
-				g.lebenlabel.setText("Leben: " + g.leben);
+				g.gameOver();
 			}else if(g.leben > 0){
 				g.startNewRound();
 			}
@@ -127,7 +120,6 @@ public class Collisions{
 	}
 
 	public static void itemBarCollision(){
-		//for(Item i : g.items){
 		for (Iterator<Item> it = Item.listAll.iterator(); it.hasNext(); ){
 		    Item i = it.next();
 		    if (g.bar.upleft.x <= i.downright.x
@@ -135,7 +127,7 @@ public class Collisions{
 					& g.bar.y() <= i.downright.y 
 					& g.bar.y() + g.bar.ySize >= i.upright.y){
 
-				g.effect(i.effect);
+				i.effect(g.ball);
 				it.remove();
 			}
 			if (i.downleft.y < 0){
