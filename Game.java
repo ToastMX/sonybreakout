@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -115,10 +116,12 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 			if (i % 3 == 0){
 				bar.move();
-				
+
 			}
 			if  (i % 5 == 0){
+				Item.moveall();
 				ball.move();
+				Collisions.itemBarCollision();
 				Collisions.ballFrameCollision();
 				Collisions.ballBarCollision();
 				Collisions.ballBlockCollision();
@@ -129,9 +132,9 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	public void startNewGame() {
 		//bar.catchBall = null;
 		leben = 3;
-		
+
 		bar = new Bar(xSize/2 - 80, ySize - 60, gamePaint.getWidth());
-//		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos - 26));
+		
 //		ball gets build at newRound
 		
 		
@@ -153,6 +156,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		
 		for(int r=0; r<blockrows; r++){
 			for(int c=0; c<blockcolumns; c++){
+
 				blocks[r][c] = new Block(blockxStart + c*blockxSize + c*blockDistance,
 						blockyStart + r*blockySize + r*blockDistance,
 						blockxSize,
@@ -161,8 +165,8 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 				blocks[r][c].state = level.map[r][c];
 			}
 		}
-		
-		
+
+
 
 
 		restart.setVisible(false); 	// restart knopf
@@ -178,6 +182,25 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		lebenlabel.setText("Leben: " + leben);
 	}
 
+	public void effect(int effect) {
+		System.out.println("Effekt kan hier nun Programmiert werden :)");
+
+		//TODO
+		switch(effect){
+		case 1: //
+			break;
+		case 2: //
+			break;
+		case 3: //
+			break;
+		case 4: //
+			break;
+		case 5: //
+			break;
+		case 6: //
+			break;
+		}
+	}
 
 	public Block getBlockByKords(int x, int y){
 		int x2edge = x - blockxStart;
@@ -221,4 +244,5 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		}
 	}
 	public void keyTyped(KeyEvent e) {}
+
 }

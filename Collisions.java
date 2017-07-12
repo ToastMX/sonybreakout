@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class Collisions{
 
 	static Game g;
@@ -32,7 +35,7 @@ public class Collisions{
 		}else if (g.ball.yPos <= 0)
 			g.ball.vy = -1 * g.ball.vy;
 	}
-	
+
 	public static void ballBarCollision(){
 		// collision on top in bar range
 		if (g.bar.upleft.x <= g.ball.south.x
@@ -92,7 +95,7 @@ public class Collisions{
 			g.ball.vx = (g.ball.vxst) * 3;
 		}
 	}
-	
+
 	public static void ballBlockCollision(){
 
 		Block north = g.getBlockByKords(g.ball.north.x, g.ball.north.y);
@@ -100,26 +103,44 @@ public class Collisions{
 		Block south = g.getBlockByKords(g.ball.south.x, g.ball.south.y);
 		Block west = g.getBlockByKords(g.ball.west.x, g.ball.west.y);
 
+
 		// from bottom 
 		if (north != null && north.state != 0){
-			north.state -= 1;
+			north.hit();
 			g.ball.vy = Math.abs(g.ball.vy);
 		}
 		// from top 
 		else if (south != null && south.state != 0){
-			south.state -= 1;
+			south.hit();
 			g.ball.vy = Math.abs(g.ball.vy) * -1;
 		}
 		// from right
 		else if (west != null && west.state != 0){
-			west.state -= 1;
+			west.hit();
 			g.ball.vx = Math.abs(g.ball.vy);
 		}
 		// from left
 		else if (east != null && east.state != 0){
-			east.state -= 1;
+			east.hit();
 			g.ball.vx = Math.abs(g.ball.vx) * -1;
 		}
 	}
 
+	public static void itemBarCollision(){
+		//for(Item i : g.items){
+		for (Iterator<Item> it = Item.listAll.iterator(); it.hasNext(); ){
+		    Item i = it.next();
+		    if (g.bar.upleft.x <= i.downright.x
+					& g.bar.upright.x >= i.downleft.x 
+					& g.bar.y() <= i.downright.y 
+					& g.bar.y() + g.bar.ySize >= i.upright.y){
+
+				g.effect(i.effect);
+				it.remove();
+			}
+			if (i.downleft.y < 0){
+				it.remove();
+			}
+		}
+	}
 }

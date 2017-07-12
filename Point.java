@@ -20,4 +20,6 @@ public class Point {
 		}
 	}
 	
+	//public static void pointsAdjust()
+	
 }
