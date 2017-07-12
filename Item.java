@@ -35,15 +35,15 @@ public class Item {
 
 		//TODO
 		switch(effect){
-		case 1: ball.setSize(ball.xSize*5, ball.ySize*5);
+		case 1: ball.setSize(ball.xSize*2, ball.ySize*2);
 			break;
-		case 2: ball.setSize((int) (ball.xSize*0.1), (int) (ball.ySize*0.1));
+		case 2: ball.setSize((int)(ball.xSize*0.75), (int)(ball.ySize*0.75));
 			break;
-		case 3: ball.setSize(ball.xSize*5, ball.ySize*5);
+		case 3: ball.setSize((int)(ball.xSize*1.5), (int)(ball.ySize*1.5));
 			break;
-		case 4: ball.setSize(ball.xSize*5, ball.ySize);
+		case 4: ball.setSize((int)(ball.xSize*1.5), ball.ySize);
 			break;
-		case 5: ball.setSize(ball.xSize, ball.ySize*5);;
+		case 5: ball.setSize(ball.xSize, (int)(ball.ySize*1.5));;
 			break;
 		case 6: //Nothing
 			break;
