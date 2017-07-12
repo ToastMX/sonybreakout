@@ -5,9 +5,9 @@ public class Bar {
 	int gamexSize;
 	Point upleft, upright, downleft, downright;
 	int vx = 5;
-	
+
 	Ball catchBall = null;
-	
+
 	public Bar(int startXPos, int startYPos, int gamexSize){
 
 		this.gamexSize = gamexSize;
@@ -31,7 +31,7 @@ public class Bar {
 
 	public void move(){
 		int vx = 0;
-		
+
 		if (right){
 			vx = this.vx;
 			if (upright.x >= gamexSize + xSize/2){
@@ -45,15 +45,32 @@ public class Bar {
 			}
 		}
 		Point.multiMove(vx, 0, upleft, upright, downleft, downright);
-//		if (upright.x > gamexSize){
-//			Point.multiMove(gamexSize - upright.x, 0, upleft, upright, downleft, downright);
-//		}
 		xPos = upleft.x;
-		
+
 		if (catchBall != null){
-			// catchBall
+			ballmovewithbar(catchBall);
+		
 		}
 	}
-	
 
+	public void ballmovewithbar(Ball ball){
+
+
+		if (upleft.x + this.xSize/2 - ball.xSize <= 0){
+			ball.xPos = 1;
+		}
+		else if (upright.x - this.xSize/2 + ball.xSize >= gamexSize){
+			ball.xPos = gamexSize - 1 - ball.xSize;
+		}
+		else{
+			ball.xPos = (int) (upleft.x + xSize/ 2) - ball.xSize/2;
+		}
+
+		ball.yPos = (int) (yPos - 26);
+
+		ball.north = new Point(ball.xPos + ball.xSize/2, ball.yPos);
+		ball.east = new Point (ball.xPos + ball.xSize, ball.yPos + ball.ySize/2);
+		ball.south = new Point(ball.xPos + ball.xSize/2, ball.yPos + ball.ySize);
+		ball.west = new Point(ball.xPos, ball.yPos + ball.ySize/2);
+	}
 }

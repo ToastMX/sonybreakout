@@ -15,7 +15,7 @@ public class Ball {
 		xSize = 26;
 		ySize = 26;
 		vx = 0;
-		vy = - vyst;
+		vy = 0;
 
 		north = new Point(xPos + xSize/2, yPos);
 		east = new Point (xPos + xSize, yPos + ySize/2);
