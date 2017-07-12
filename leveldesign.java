@@ -33,9 +33,7 @@ public class leveldesign {
 			Type type = new TypeToken<List<leveldesign>>(){}.getType();
 			List<leveldesign> models = gson.fromJson(br, type);
 		}catch(java.io.FileNotFoundException fff){
-			
 		}
-		
 	}
 	
 	

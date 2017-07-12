@@ -37,9 +37,3 @@ public class Ball {
 		this.yTo = yTo;
 	}
 }
-
-//	public void movewithbar(Bar bar){
-//		xPos  = (int) (bar.xPos + (bar.xSize)/ 2) - 13;
-//		yPos = (int) (bar.yPos - 26);
-//		
-//	}

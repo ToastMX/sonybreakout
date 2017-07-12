@@ -3,6 +3,7 @@ public class Block {
 	int  xPos, yPos, xSize, ySize, state, row, column;
 	static int rectCount;
 	
+	
 
 	public Block (int xPos, int yPos, int xSize, int ySize){
 		this.xPos = xPos;
@@ -12,7 +13,11 @@ public class Block {
 		
 		// 0:gone 1, 2, 3
 		this.state = 1;
-		
 	}	
-
+	
+	public void hit(){
+	state--;
+	Item.listAll.add(new Item(xPos + xSize/2, yPos + ySize));
+	}
+	
 }

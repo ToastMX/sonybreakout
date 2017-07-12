@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -111,10 +112,12 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 
 			if (i % 3 == 0){
 				bar.move();
-				
+
 			}
 			if  (i % 5 == 0){
+				Item.moveall();
 				ball.move();
+				Collisions.itemBarCollision();
 				Collisions.ballFrameCollision();
 				Collisions.ballBarCollision();
 				Collisions.ballBlockCollision();
@@ -125,14 +128,14 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 	public void startNewGame() {
 		//bar.catchBall = null;
 		leben = 3;
-		
+
 		bar = new Bar(xSize/2 - 80, ySize - 60, gamePaint.getWidth());
-//		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos - 26));
-//		ball gets build at newRound
-		
-		
+		//		ball = new Ball( (int) ( bar.xPos + (bar.xSize)/ 2) - 13, (int) (bar.yPos - 26));
+		//		ball gets build at newRound
+
+
 		// read lvl and build blocks
-		String[] designRows = leveldesign.lvl2.split(",");
+		String[] designRows = leveldesign.lvl1.split(",");
 		this.blockrows = designRows.length;
 		this.blockcolumns = designRows[0].length();
 
@@ -142,7 +145,7 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 			int blockAreaX = gamePaint.getWidth() - blockxStart * 2;
 			this.blockxSize = blockAreaX / blocks[0].length - this.blockDistance;
 		}
-		
+
 		for(int r=0; r<=designRows.length-1; r++){
 			String[] designCollumns = designRows[r].split("");
 			for(int c=0; c<=designCollumns.length-1; c++){
@@ -153,8 +156,8 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 				blocks[r][c].state = Integer.parseInt(designCollumns[c]);
 			}
 		}
-		
-		
+
+
 
 
 		restart.setVisible(false); 	// restart knopf
@@ -170,6 +173,25 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		lebenlabel.setText("Leben: " + leben);
 	}
 
+	public void effect(int effect) {
+		System.out.println("Effekt kan hier nun Programmiert werden :)");
+
+		//TODO
+		switch(effect){
+		case 1: //
+			break;
+		case 2: //
+			break;
+		case 3: //
+			break;
+		case 4: //
+			break;
+		case 5: //
+			break;
+		case 6: //
+			break;
+		}
+	}
 
 	public Block getBlockByKords(int x, int y){
 		int x2edge = x - blockxStart;
@@ -213,4 +235,5 @@ public class Game extends JFrame implements Runnable, KeyListener, ActionListene
 		}
 	}
 	public void keyTyped(KeyEvent e) {}
+
 }
