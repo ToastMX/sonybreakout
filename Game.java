@@ -81,7 +81,7 @@ public class Game extends JFrame implements Runnable{
 			i++;
 			try {
 				gamePaint.repaint();
-				Thread.sleep(1); 
+				Thread.sleep(2); 
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -90,10 +90,10 @@ public class Game extends JFrame implements Runnable{
 				level.startAnimationClock -= 1;
 			}
 
-			if (i % 3 == 0){
+			if (i % 2 == 0){
 				bar.move();
 			}
-			if  (i % 5 == 0){
+			if  (i % 4 == 0){
 				Item.moveall();
 				ball.move();
 				Collisions.itemBarCollision();

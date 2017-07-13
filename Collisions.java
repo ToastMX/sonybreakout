@@ -113,7 +113,7 @@ public class Collisions{
 		// from right
 		if (west != null && west.state != 0){
 			west.hit(g.ball);
-			System.out.println("right side");
+//			System.out.println("right side");
 			//on edge from bottom
 			if(g.ball.vx == 0){
 				g.ball.vx = g.ball.vxst * 2;
@@ -126,14 +126,14 @@ public class Collisions{
 			// bugfix für doble hits, verschiebe ball a bit
 			int howfarin = west.xPos + west.xSize - g.ball.west.x;
 			g.ball.move(0, howfarin*10);
-			System.out.println("right edge" + howfarin);
+//			System.out.println("right edge" + howfarin);
 			
 			g.checkWinningGame();
 		}
 		// from left
 		if (east != null && east.state != 0){
 			east.hit(g.ball);
-			System.out.println("left side");
+//			System.out.println("left side");
 			//on edge from bottom
 			if(g.ball.vx == 0){
 				g.ball.vx = g.ball.vxst * -2;
@@ -145,7 +145,7 @@ public class Collisions{
 			// bugfix für doble hits, verschiebe ball a bit
 			int howfarin = east.xPos - g.ball.east.x;
 			g.ball.move(0, howfarin*10);
-			System.out.println("left edge" + howfarin);
+//			System.out.println("left edge" + howfarin);
 			
 			g.checkWinningGame();
 		}
