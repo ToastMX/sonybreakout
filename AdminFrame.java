@@ -60,6 +60,7 @@ public class AdminFrame extends JFrame{
 			}
 		}
 	}
+	
 	class BallStopListener implements ActionListener{
 		boolean stopped = false;
 		int saveX, saveY;
@@ -73,7 +74,12 @@ public class AdminFrame extends JFrame{
 				//System.out.println("saveX" + saveX);
 				ballStop.setText("Restart Ball");
 				stopped = true;
-			}else if (stopped & (g.ball.south.y < g.bar.downleft.y)){
+			}else if (stopped 
+					& (g.ball.south.y < g.bar.downleft.y)
+					& !(g.bar.upleft.x <= g.ball.south.x
+					& g.bar.upright.x >= g.ball.south.x 
+					& g.bar.y() <= g.ball.south.y 
+					& g.bar.y() + g.bar.ySize >= g.ball.south.y)){
 				g.ball.vx = saveX;
 				g.ball.vy = saveY;
 				ballStop.setText("Stop Ball");
@@ -81,7 +87,6 @@ public class AdminFrame extends JFrame{
 			}
 		}
 	}
-
 
 	class AdminKeyListener implements KeyListener{
 		public void keyPressed(KeyEvent e) {}
