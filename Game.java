@@ -152,7 +152,7 @@ public class Game extends JFrame implements Runnable, KeyListener{
 	public void startNewRound(){
 		ball = new Ball(
 				(int)(bar.xPos + (bar.xSize)/ 2) - 13, 
-				(int)(bar.yPos) - 26,
+				(int)(bar.yPos) - level.ballYSize,
 				level.ballXSize,
 				level.ballYSize);
 		bar.catchBall = ball;

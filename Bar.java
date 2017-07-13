@@ -49,7 +49,6 @@ public class Bar {
 
 		if (catchBall != null){
 			ballmovewithbar(catchBall);
-		
 		}
 	}
 
@@ -66,7 +65,7 @@ public class Bar {
 			ball.xPos = (int) (upleft.x + xSize/ 2) - ball.xSize/2;
 		}
 
-		ball.yPos = (int) (yPos - 26);
+		ball.yPos = (int) (yPos - ball.ySize);
 
 		ball.north = new Point(ball.xPos + ball.xSize/2, ball.yPos);
 		ball.east = new Point (ball.xPos + ball.xSize, ball.yPos + ball.ySize/2);
