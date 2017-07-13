@@ -17,6 +17,7 @@
 	blockySize: 30,
 	blockDistance: 2,
 	blockxStart: 100,
+	blockyStart: 120,
 	ballXSize: 26;
 	ballYSize: 26;
 	map:[
