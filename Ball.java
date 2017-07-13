@@ -1,6 +1,6 @@
 public class Ball {
 
-	int xPos, yPos, xSize, ySize, dir = 1, vx, vy, vxst = 2, vyst = 4;
+	int xPos, yPos, xSize, ySize, dir = 1, vx, vy, vxst = 2, vyst = 2*vxst;
 												 //st = standard
 	
 	// Himmelsrichtungen Punkte Ball
@@ -23,11 +23,14 @@ public class Ball {
 	}
 	
 	public void move() {			
+		this.move(vx, vy);
+	}
+	
+	public void move(int x, int y) {			
 		xPos += vx;
 		yPos += vy;
 
 		Point.multiMove(vx, vy, north, east, south, west);
-		
 	}
 	
 	public void setSize(int xTo, int yTo){

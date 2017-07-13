@@ -22,15 +22,12 @@ public class Block {
 	}	
 
 
-
-	public void hit(){
+	public void hit(Ball ball){
 		Game.playSound(blop);
 		state--;
 		if(Math.random() < Block.itemDropProp){
-			Item.listAll.add(new Item(xPos + xSize/2, yPos + ySize));
+			Item.listAll.add(new Item(ball.xPos, yPos + ySize));
 		}
 	}
-
-
 
 }

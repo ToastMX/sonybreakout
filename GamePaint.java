@@ -19,12 +19,13 @@ public class GamePaint extends JPanel{
 		
 		this.setBackground(game.level.stateColors[0]);
 		
-		// direction line
-		//	g.setColor(new Color(100,100,100));
-		//	g.drawLine(game.ball.xPos + game.ball.xSize/2, game.ball.yPos + game.ball.ySize/2,
-		//		       game.ball.xPos + game.ball.xSize/2 + 400* game.ball.vx, 
-		//		       game.ball.yPos + game.ball.ySize/2 + 400* game.ball.vy);
-		//		       g.setColor(Color.BLACK);
+		 // dumm direction line
+			g.setColor(new Color(100,100,100));
+			int lineDirY = game.ball.vy != 0 ? game.ball.vy : -5;
+			g.drawLine(game.ball.xPos + game.ball.xSize/2, game.ball.yPos + game.ball.ySize/2,
+				       game.ball.xPos + game.ball.xSize/2 + 400* game.ball.vx, 
+				       game.ball.yPos + game.ball.ySize/2 + 400* lineDirY);
+				       g.setColor(Color.BLACK);
 		        
 		// Rectangles
 		for(int y = 0; y < Block.all.length; y++){

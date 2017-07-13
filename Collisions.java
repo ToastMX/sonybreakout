@@ -23,7 +23,7 @@ public class Collisions{
 			if(g.leben == 0){
 				g.gameOver();
 			}else if(g.leben > 0){
-				Game.playSound(Game.LifeLost);
+				Game.playSound(g.LifeLost);
 				g.startNewRound();
 			}
 		}else if (g.ball.yPos <= 0)
@@ -100,26 +100,53 @@ public class Collisions{
 
 		// from bottom 
 		if (north != null && north.state != 0){
-			north.hit();
+			north.hit(g.ball);
 			g.ball.vy = Math.abs(g.ball.vy);
 			g.checkWinningGame();
 		}
 		// from top 
 		if (south != null && south.state != 0){
-			south.hit();
+			south.hit(g.ball);
 			g.ball.vy = Math.abs(g.ball.vy) * -1;
 			g.checkWinningGame();
 		}
 		// from right
 		if (west != null && west.state != 0){
-			west.hit();
-			g.ball.vx = Math.abs(g.ball.vy);
+			west.hit(g.ball);
+			System.out.println("right side");
+			//on edge from bottom
+			if(g.ball.vx == 0){
+				g.ball.vx = g.ball.vxst * 2;
+				g.ball.vy = Math.abs(g.ball.vy) * -1;
+			}
+			//on side
+			else {
+				g.ball.vx = g.ball.vx * -1;
+			}
+			// bugfix für doble hits, verschiebe ball a bit
+			int howfarin = west.xPos + west.xSize - g.ball.west.x;
+			g.ball.move(0, howfarin*10);
+			System.out.println("right edge" + howfarin);
+			
 			g.checkWinningGame();
 		}
 		// from left
 		if (east != null && east.state != 0){
-			east.hit();
-			g.ball.vx = Math.abs(g.ball.vx) * -1;
+			east.hit(g.ball);
+			System.out.println("left side");
+			//on edge from bottom
+			if(g.ball.vx == 0){
+				g.ball.vx = g.ball.vxst * -2;
+			}
+			//on side
+			else {
+				g.ball.vx = g.ball.vx * -1;
+			}
+			// bugfix für doble hits, verschiebe ball a bit
+			int howfarin = east.xPos - g.ball.east.x;
+			g.ball.move(0, howfarin*10);
+			System.out.println("left edge" + howfarin);
+			
 			g.checkWinningGame();
 		}
 	}

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,22 +21,24 @@ public class Game extends JFrame implements Runnable, KeyListener{
 	Thread Thread;
 	JButton restart;
 	JLabel gameOver, lebenlabel;
-	static File GameOver = new File("src/Sounds/GameOverSoundanimation.wav");
-	static File LifeLost = new File("src/Sounds/LifeLost.wav");
-	
+
+	File GameOver = new File("src/Sounds/GameOverSoundanimation.wav");
+	File LifeLost = new File("src/Sounds/LifeLost.wav");
+
+
 	int xSize = 1300, ySize = 800, xLoc = 300, yLoc = 50, leben;
 
 	Ball ball;
 	Bar bar;
-//	Block[][] blocks;
-	
+	//	Block[][] blocks;
+
 	Leveldesign level;
 	int levelnum = 0;
-	
+
 	public Game(String username) {
 		Collisions.referenceGame(this);
 		Leveldesign.readFile("src/lvldata.json");
-		
+
 		Thread = new Thread(this, username);
 		c = getContentPane();
 
@@ -64,14 +67,14 @@ public class Game extends JFrame implements Runnable, KeyListener{
 			}
 		};
 		restart.addActionListener(restartListener);
-		
+
 		this.addKeyListener(this);
 		startNewGame();
 	}
-	
+
 	public void run() {
 		leben = 3;
-		
+
 		int i = 0;
 		while (true) {
 			i++;
@@ -99,18 +102,18 @@ public class Game extends JFrame implements Runnable, KeyListener{
 			}
 		}
 	}
-	
+
 	public void startNewGame() {
 		leben = 3;
 		bar = new Bar(xSize/2 - 80, ySize - 60, gamePaint.getWidth());
 
 		Item.listAll.removeAll(Item.listAll);
 		this.level = Leveldesign.listAll.get(this.levelnum);
-		
+
 		// read lvl and build blocks
 		level.blockrows = level.map.length;
 		level.blockcolumns = level.map[0].length;
-		
+
 		level.blockySize = level.blockySize;
 		level.blockDistance = level.blockDistance;
 
@@ -120,7 +123,7 @@ public class Game extends JFrame implements Runnable, KeyListener{
 			int blockAreaX = gamePaint.getWidth() - level.blockxStart * 2;
 			level.blockxSize = blockAreaX / level.blockcolumns - level.blockDistance;
 		}
-		
+
 		for(int r=0; r<level.blockrows; r++){
 			for(int c=0; c<level.blockcolumns; c++){
 				Block.all[r][c] = new Block(level.blockxStart + c*level.blockxSize + c*level.blockDistance,
@@ -135,7 +138,7 @@ public class Game extends JFrame implements Runnable, KeyListener{
 						Block.all[r][c].state = 0;
 					}catch(ArrayIndexOutOfBoundsException blockAraayIndex){}
 					// wenn blocks zu klein
-					
+
 				}
 			}
 		}
@@ -155,9 +158,9 @@ public class Game extends JFrame implements Runnable, KeyListener{
 		bar.catchBall = ball;
 		lebenlabel.setText("Leben: " + leben);
 	}
-	
+
 	public void gameOver(){
-		Game.playSound(GameOver);
+		Game.playSound(GameOver, -20.0f);
 		bar.vx = 0;
 		ball.vy = 0;
 		ball.vx = 0;
@@ -167,7 +170,7 @@ public class Game extends JFrame implements Runnable, KeyListener{
 		bar.right= false;
 		lebenlabel.setText("Leben: " + leben);
 	}
-	
+
 	public void checkWinningGame(){
 		for (Block[] row : Block.all){
 			for(Block b : row){
@@ -200,19 +203,22 @@ public class Game extends JFrame implements Runnable, KeyListener{
 		}
 	}
 
-	public static void playSound(File sound){
-		try
-		{
+	public static void playSound(File sound, float volumechange){
+		try{
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(sound));
+			FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(volumechange); // Reduce volume by 10 "volumechange"
 			clip.start();
 		}
-		catch (Exception exc)
-		{
+		catch (Exception exc){
 			exc.printStackTrace(System.out);
 		}
 	}
-	
+	public static void playSound(File sound){
+		Game.playSound(sound, 0);
+	}
+
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == 37) {
 			bar.left = true;

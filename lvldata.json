@@ -5,8 +5,8 @@
 	blockySize: 300,
 	blockDistance: 2,
 	blockxStart: 100,
-	ballXSize: 26;
-	ballYSize: 26;
+	ballXSize: 40;
+	ballYSize: 40;
 	map:[
 		[3]
 		]		 	
