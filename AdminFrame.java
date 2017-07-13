@@ -29,7 +29,7 @@ public class AdminFrame extends JFrame{
 		setTitle("Admin");
 		setLocation(xLoc, yLoc);
 
-		setLayout(new GridLayout(8,1));
+		setLayout(new GridLayout(5,1));
 
 		chooseLevel = new JComboBox<String>();
 		add(chooseLevel);
@@ -89,10 +89,16 @@ public class AdminFrame extends JFrame{
 	}
 
 	class AdminKeyListener implements KeyListener{
-		public void keyPressed(KeyEvent e) {}
-		public void keyReleased(KeyEvent e) {
-			if (e.getKeyCode() == 83) {
+		boolean released = true;
+		public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode() == 83 & released) {
 				ballStop.doClick();
+				released = false;
+			}
+		}
+		public void keyReleased(KeyEvent e) {
+			if (e.getKeyCode() == 83 & !released) {
+				released = true;
 			}
 		}
 		public void keyTyped(KeyEvent e) {}

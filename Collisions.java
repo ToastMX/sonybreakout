@@ -23,6 +23,7 @@ public class Collisions{
 			if(g.leben == 0){
 				g.gameOver();
 			}else if(g.leben > 0){
+				Game.playSound(Game.LifeLost);
 				g.startNewRound();
 			}
 		}else if (g.ball.yPos <= 0)
@@ -125,8 +126,8 @@ public class Collisions{
 
 	public static void itemBarCollision(){
 		for (Iterator<Item> it = Item.listAll.iterator(); it.hasNext(); ){
-		    Item i = it.next();
-		    if (g.bar.upleft.x <= i.downright.x
+			Item i = it.next();
+			if (g.bar.upleft.x <= i.downright.x
 					& g.bar.upright.x >= i.downleft.x 
 					& g.bar.y() <= i.downright.y 
 					& g.bar.y() + g.bar.ySize >= i.upright.y){
