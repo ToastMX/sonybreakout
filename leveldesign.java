@@ -7,6 +7,7 @@
  *
  */
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
@@ -20,20 +21,23 @@ import java.util.List;
 
 public class Leveldesign {
 	
-	public int id;
-	public int[][] map;
-	public String name;
-	public String blockposition;
-	public int blockrows;
-	public int blockcolumns;
-	public int blockxStart;
-	public int blockyStart;
-	public int blockxSize;
-	public int blockySize;
-	public int blockDistance;
-	public int ballXSize;
-	public int ballYSize;
+	int id;
+	int[][] map;
+	String name;
+	String blockposition;
+	int blockrows;
+	int blockcolumns;
+	int blockxStart;
+	int blockyStart;
+	int blockxSize;
+	int blockySize;
+	int blockDistance;
+	int ballXSize;
+	int ballYSize;
 
+	int colors[][];
+//	Color[] state2 = new Co;
+	
 	int startAnimationClock = 1000; // Frames startanimation
 	
 	
@@ -56,7 +60,14 @@ public class Leveldesign {
 		ballXSize		= ballXSize != 0 		? ballXSize 	: 26;
 		ballYSize		= ballYSize != 0 		? ballYSize 	: 26;
 		
+		
+		
 	}
+	
+	public void setColors(){
+		
+	}
+	
 	
 	public static List<Leveldesign> listAll;
 	
