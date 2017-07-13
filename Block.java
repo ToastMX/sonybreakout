@@ -1,8 +1,14 @@
+import java.io.File;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 public class Block {
 
 	int  xPos, yPos, xSize, ySize, state, row, column;
 	static double itemDropProp = 0.9;
-	
+	static File blop = new File("src/Sounds/BlockBlop.wav");
+
 	static Block[][] all;
 
 	public Block (int xPos, int yPos, int xSize, int ySize){
@@ -15,13 +21,16 @@ public class Block {
 		this.state = 1;
 	}	
 
+
+
 	public void hit(){
+		Game.playSound(blop);
 		state--;
 		if(Math.random() < Block.itemDropProp){
 			Item.listAll.add(new Item(xPos + xSize/2, yPos + ySize));
 		}
 	}
-	
-	
+
+
 
 }

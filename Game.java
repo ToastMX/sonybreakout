@@ -3,8 +3,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.ArrayList;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,6 +20,8 @@ public class Game extends JFrame implements Runnable, KeyListener{
 	Thread Thread;
 	JButton restart;
 	JLabel gameOver, lebenlabel;
+	static File GameOver = new File("src/Sounds/GameOverDarkVoice.wav");
+	static File LifeLost = new File("src/Sounds/LifeLost.wav");
 	
 	int xSize = 1300, ySize = 800, xLoc = 300, yLoc = 50, leben;
 
@@ -60,21 +65,7 @@ public class Game extends JFrame implements Runnable, KeyListener{
 		};
 		restart.addActionListener(restartListener);
 		
-		
-		
-		KeyListener spaceRestart = new KeyListener(){
-			public void keyPressed(KeyEvent ke) {
-				if(ke.getKeyCode() == KeyEvent.VK_SPACE & restart.isVisible()){
-					restart.doClick();
-				}
-			}
-			public void keyReleased(KeyEvent ke) {}
-			public void keyTyped(KeyEvent ke) {}
-		};
-		addKeyListener(spaceRestart);
-		
-		
-		
+		this.addKeyListener(this);
 		startNewGame();
 	}
 	
@@ -111,7 +102,6 @@ public class Game extends JFrame implements Runnable, KeyListener{
 	
 	public void startNewGame() {
 		leben = 3;
-		
 		bar = new Bar(xSize/2 - 80, ySize - 60, gamePaint.getWidth());
 
 		Item.listAll.removeAll(Item.listAll);
@@ -152,7 +142,6 @@ public class Game extends JFrame implements Runnable, KeyListener{
 
 		restart.setVisible(false); 	// restart knopf
 		gameOver.setVisible(false);	// gamoversign
-		this.addKeyListener(this);	// make bar active
 
 		startNewRound();
 	}
@@ -168,11 +157,12 @@ public class Game extends JFrame implements Runnable, KeyListener{
 	}
 	
 	public void gameOver(){
+		Game.playSound(GameOver);
+		bar.vx = 0;
 		ball.vy = 0;
 		ball.vx = 0;
 		gameOver.setVisible(true);
 		restart.setVisible(true);
-		removeKeyListener(this);
 		bar.left = false;
 		bar.right= false;
 		lebenlabel.setText("Leben: " + leben);
@@ -210,7 +200,19 @@ public class Game extends JFrame implements Runnable, KeyListener{
 		}
 	}
 
-	// Movement of Bar (Key-Listener)
+	public static void playSound(File sound){
+		try
+		{
+			Clip clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream(sound));
+			clip.start();
+		}
+		catch (Exception exc)
+		{
+			exc.printStackTrace(System.out);
+		}
+	}
+	
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == 37) {
 			bar.left = true;
