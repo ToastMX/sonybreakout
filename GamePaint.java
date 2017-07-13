@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 public class GamePaint extends JPanel{
 
 	Game game;
+	boolean directionLine = false;
 
 	public GamePaint(Game game){
 		this.game = game;
@@ -18,15 +19,16 @@ public class GamePaint extends JPanel{
 		int blockcount = 0;
 		
 		this.setBackground(game.level.stateColors[0]);
-		
-		 // dumm direction line
+
+		// direction line
+		if(directionLine){
 			g.setColor(new Color(100,100,100));
 			int lineDirY = game.ball.vy != 0 ? game.ball.vy : -5;
 			g.drawLine(game.ball.xPos + game.ball.xSize/2, game.ball.yPos + game.ball.ySize/2,
 				       game.ball.xPos + game.ball.xSize/2 + 400* game.ball.vx, 
 				       game.ball.yPos + game.ball.ySize/2 + 400* lineDirY);
 				       g.setColor(Color.BLACK);
-		        
+		}
 		// Rectangles
 		for(int y = 0; y < Block.all.length; y++){
 			for(int x = 0; x < Block.all[y].length; x++){
