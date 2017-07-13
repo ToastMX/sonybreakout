@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
-public class Game extends JFrame implements Runnable, KeyListener{
+public class Game extends JFrame implements Runnable{
 
 	Container c;
 	GamePaint gamePaint;
@@ -68,7 +68,8 @@ public class Game extends JFrame implements Runnable, KeyListener{
 		};
 		restart.addActionListener(restartListener);
 
-		this.addKeyListener(this);
+		GameKeyListener gKL = new GameKeyListener();
+		this.addKeyListener(gKL);
 		startNewGame();
 	}
 
@@ -219,35 +220,70 @@ public class Game extends JFrame implements Runnable, KeyListener{
 		Game.playSound(sound, 0);
 	}
 
-	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == 37) {
-			bar.left = true;
-			bar.right = false;
+	class GameKeyListener implements KeyListener{
+		Container c;
+		
+		public GameKeyListener(){}
+		public GameKeyListener(Container c){
+			this.c = c;
 		}
-		if (e.getKeyCode() == 39) {
-			bar.left = false;
-			bar.right = true;
+		
+		public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode() == 37) {
+				bar.left = true;
+				bar.right = false;
+			}
+			if (e.getKeyCode() == 39) {
+				bar.left = false;
+				bar.right = true;
+			}
+			if(e.getKeyCode() == 38 && bar.catchBall != null){
+				bar.catchBall.vy = bar.catchBall.vyst;
+				bar.catchBall = null;
+			}
+			if(e.getKeyCode() == KeyEvent.VK_SPACE & restart.isVisible()){
+				restart.doClick();
+			}
 		}
-		if(e.getKeyCode() == 38 && bar.catchBall != null){
-			bar.catchBall.vy = bar.catchBall.vyst;
-			bar.catchBall = null;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_SPACE & restart.isVisible()){
-			restart.doClick();
-		}
-	}
 
-	public void keyReleased(KeyEvent e) {
-		if (e.getKeyCode() == 37) {
-			bar.left = false;
+		public void keyReleased(KeyEvent e) {
+			if (e.getKeyCode() == 37) {
+				bar.left = false;
+			}
+			if (e.getKeyCode() == 39) {
+				bar.right = false;
+			}
 		}
-		if (e.getKeyCode() == 39) {
-			bar.right = false;
-		}
+		public void keyTyped(KeyEvent e) {}
+		
 	}
-	public void keyTyped(KeyEvent e) {}
 	
-	
-	
+//	public void keyPressed(KeyEvent e) {
+//		if (e.getKeyCode() == 37) {
+//			bar.left = true;
+//			bar.right = false;
+//		}
+//		if (e.getKeyCode() == 39) {
+//			bar.left = false;
+//			bar.right = true;
+//		}
+//		if(e.getKeyCode() == 38 && bar.catchBall != null){
+//			bar.catchBall.vy = bar.catchBall.vyst;
+//			bar.catchBall = null;
+//		}
+//		if(e.getKeyCode() == KeyEvent.VK_SPACE & restart.isVisible()){
+//			restart.doClick();
+//		}
+//	}
+//
+//	public void keyReleased(KeyEvent e) {
+//		if (e.getKeyCode() == 37) {
+//			bar.left = false;
+//		}
+//		if (e.getKeyCode() == 39) {
+//			bar.right = false;
+//		}
+//	}
+//	public void keyTyped(KeyEvent e) {}
 	
 }

@@ -6,7 +6,13 @@ public class GamePaint extends JPanel{
 
 	Game game;
 	boolean directionLine = false;
+	int lineDirY;
+	int lineDirX;
 
+	int adminlineDirY;
+	int adminlineDirX;
+	boolean adminStop;
+	
 	public GamePaint(Game game){
 		this.game = game;
 		
@@ -23,9 +29,17 @@ public class GamePaint extends JPanel{
 		// direction line
 		if(directionLine){
 			g.setColor(new Color(100,100,100));
-			int lineDirY = game.ball.vy != 0 ? game.ball.vy : -5;
+			
+			if(adminStop){
+				lineDirY = adminlineDirY;
+				lineDirX = adminlineDirX;
+			}else{
+				lineDirY = game.ball.vy != 0 ? game.ball.vy : -5;
+				lineDirX = game.ball.vx;
+			}
+
 			g.drawLine(game.ball.xPos + game.ball.xSize/2, game.ball.yPos + game.ball.ySize/2,
-				       game.ball.xPos + game.ball.xSize/2 + 400* game.ball.vx, 
+				       game.ball.xPos + game.ball.xSize/2 + 400* lineDirX, 
 				       game.ball.yPos + game.ball.ySize/2 + 400* lineDirY);
 				       g.setColor(Color.BLACK);
 		}
@@ -64,9 +78,6 @@ public class GamePaint extends JPanel{
 		try {
 			g.fillOval(game.ball.xPos, game.ball.yPos, game.ball.xSize, game.ball.ySize);	
 		}catch(NullPointerException a){}
-		
-		
-		
 		//Items
 		g.setColor(Color.RED);
 		for(Item i: Item.listAll){
