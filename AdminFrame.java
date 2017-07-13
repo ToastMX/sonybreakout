@@ -10,12 +10,20 @@ import javax.swing.*;
 
 public class AdminFrame extends JFrame{
 
+	Game g;
 	Container c;
 	int xSize, ySize, xLoc, yLoc;
-	Game g;
+	
 	JComboBox<String> chooseLevel;
-	JButton ballStop;
-	JToggleButton ballPredict;
+	JButton restart;
+	JToggleButton ballPredict, ballStop;
+	
+	LevelListener lL;
+	BallStopListener bSL;
+	BallPredictListener bPL;
+	RestartListener rL;
+	AdminKeyListener aKL;
+	
 
 	public AdminFrame(Game game){
 		g = game;
@@ -37,22 +45,27 @@ public class AdminFrame extends JFrame{
 		for(Leveldesign i :Leveldesign.listAll){
 			chooseLevel.addItem(i.name);
 		}
-		LevelListener lL = new LevelListener();
+		lL = new LevelListener();
 		chooseLevel.addItemListener(lL);
 
-		ballStop = new JButton("Stop Ball");
+		ballStop = new JToggleButton("Stop Ball");
 		add(ballStop);
-		BallStopListener bSL = new BallStopListener();
+		bSL = new BallStopListener();
 		ballStop.addActionListener(bSL);
 
 		ballPredict = new JToggleButton("Balllinie einblenden");
 		add(ballPredict);
-		BallPredictListener bPL = new BallPredictListener();
+		bPL = new BallPredictListener();
 		ballPredict.addActionListener(bPL);
+		
+		restart = new JButton("Restart");
+		add(restart);
+		rL = new RestartListener();
+		restart.addActionListener(rL);
+		
 
-		AdminKeyListener aKL = new AdminKeyListener();
+		aKL = new AdminKeyListener();
 		g.addKeyListener(aKL);
-
 		setVisible(true);
 	}
 
@@ -68,28 +81,31 @@ public class AdminFrame extends JFrame{
 	}
 
 	class BallStopListener implements ActionListener{
-		boolean stopped = false;
 		int saveX, saveY;
 		public void actionPerformed(ActionEvent aE) {
 
-			if(!stopped & (g.ball.vx != 0 | g.ball.vy != 0)){
+			if(ballStop.isSelected() & (g.ball.vx != 0 | g.ball.vy != 0)){
 				saveX = g.ball.vx;
 				saveY = g.ball.vy;
+				
 				g.ball.vx = 0;
 				g.ball.vy = 0;
-				//System.out.println("saveX" + saveX);
+				
+				g.gamePaint.adminlineDirX = saveX;
+				g.gamePaint.adminlineDirY = saveY;
+				g.gamePaint.adminStop = ballStop.isSelected();
 				ballStop.setText("Restart Ball");
-				stopped = true;
-			}else if (stopped 
+			}else if (!ballStop.isSelected() 
 					& (g.ball.south.y < g.bar.downleft.y)
 					& !(g.bar.upleft.x <= g.ball.south.x
 					& g.bar.upright.x >= g.ball.south.x 
 					& g.bar.y() <= g.ball.south.y 
 					& g.bar.y() + g.bar.ySize >= g.ball.south.y)){
+				
 				g.ball.vx = saveX;
 				g.ball.vy = saveY;
+				g.gamePaint.adminStop = ballStop.isSelected();
 				ballStop.setText("Stop Ball");
-				stopped = false;
 			}
 		}
 	}
@@ -97,6 +113,7 @@ public class AdminFrame extends JFrame{
 	class AdminKeyListener implements KeyListener{
 		boolean released83 = true;
 		boolean released76 = true;
+		boolean released82 = true;
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyCode() == 83 & released83) {
 				ballStop.doClick();
@@ -106,6 +123,12 @@ public class AdminFrame extends JFrame{
 				ballPredict.doClick();
 				released76 = false;
 			}
+			if (e.getKeyCode() == 82 & released82){
+				restart.doClick();
+				released82 = false;
+			}
+
+			
 		}
 		public void keyReleased(KeyEvent e) {
 			if (e.getKeyCode() == 83 & !released83) {
@@ -113,6 +136,9 @@ public class AdminFrame extends JFrame{
 			}
 			if (e.getKeyCode() == 76 & !released76){
 				released76 = true;
+			}
+			if (e.getKeyCode() == 82 & !released82){
+				released82 = true;
 			}
 		}
 		public void keyTyped(KeyEvent e) {}
@@ -128,6 +154,13 @@ public class AdminFrame extends JFrame{
 				g.gamePaint.directionLine = false;
 				ballPredict.setText("Balllinie einblenden");
 			}
+		}
+	}
+
+	class RestartListener implements ActionListener{
+
+		public void actionPerformed(ActionEvent arg0) {
+			g.startNewGame();
 		}
 	}
 }
