@@ -5,12 +5,10 @@ import javax.swing.JPanel;
 public class GamePaint extends JPanel{
 
 	Game game;
-	Color state2 = new Color (109, 7, 7);
-	Color state3 = new Color (226, 162, 11);
 
 	public GamePaint(Game game){
 		this.game = game;
-		this.setBackground(new Color (216,191,216));
+		
 	}
 
 	//Painting Everything
@@ -18,6 +16,8 @@ public class GamePaint extends JPanel{
 		
 		super.paintComponent(g);
 		int blockcount = 0;
+		
+		this.setBackground(game.level.stateColors[0]);
 		
 		// Rectangles
 		for(int y = 0; y < Block.all.length; y++){
@@ -27,12 +27,8 @@ public class GamePaint extends JPanel{
 				if (Block.all[y][x].state == 0 
 						|| (int)(Math.random() * 100) < (int)(Math.pow((float)game.level.startAnimationClock/(float)5000,2.0) * 100))
 					continue;
-				else if (Block.all[y][x].state == 1)
-					g.setColor(Color.BLACK);
-				else if (Block.all[y][x].state == 2)
-					g.setColor(state2);
-				else if (Block.all[y][x].state == 3)
-					g.setColor(state3); 
+				
+				g.setColor(game.level.stateColors[Block.all[y][x].state]);
 				
 				g.fillRect(Block.all[y][x].xPos, 
 						Block.all[y][x].yPos, 
@@ -43,14 +39,20 @@ public class GamePaint extends JPanel{
 				blockcount++;
 			}
 		}
-
+		// direction line
+//		g.setColor(new Color(100,100,100));
+//        g.drawLine(game.ball.xPos + game.ball.xSize/2, game.ball.yPos + game.ball.ySize/2,
+//        			game.ball.xPos + game.ball.xSize/2 + 400* game.ball.vx, 
+//        			game.ball.yPos + game.ball.ySize/2 + 400* game.ball.vy);
+//        g.setColor(Color.BLACK);
 		//The Bar
 		g.fillRect(game.bar.xPos, game.bar.yPos, game.bar.xSize, game.bar.ySize);
 		//The Ball
 		try {
 			g.fillOval(game.ball.xPos, game.ball.yPos, game.ball.xSize, game.ball.ySize);	
 		}catch(NullPointerException a){}
-
+		
+		
 		
 		//Items
 		g.setColor(Color.RED);
