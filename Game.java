@@ -81,7 +81,7 @@ public class Game extends JFrame implements Runnable{
 			i++;
 			try {
 				gamePaint.repaint();
-				Thread.sleep(2); 
+				Thread.sleep(1); 
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

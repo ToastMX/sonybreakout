@@ -159,12 +159,35 @@ public class Collisions{
 					& g.bar.y() <= i.downright.y 
 					& g.bar.y() + g.bar.ySize >= i.upright.y){
 
-				i.effect(g.ball);
+				Collisions.effect(g.ball);
 				it.remove();
 			}
 			if (i.downleft.y < 0){
 				it.remove();
 			}
+		}
+	}
+	
+	public static void effect(Ball ball) {
+		
+		int effect = (int) (Math.random()*3 + 1);
+		
+		//TODO
+		switch(effect){
+		case 1: 
+			g.leben++;
+			g.lebenlabel.setText("Leben: " + g.leben);
+			break;
+		case 2: ball.setSize((int)(ball.xSize*0.75), (int)(ball.ySize*0.75));
+			break;
+		case 3: ball.setSize((int)(ball.xSize*1.5), (int)(ball.ySize*1.5));
+			break;
+//		case 4: ball.setSize((int)(ball.xSize*1.5), ball.ySize);
+//			break;
+//		case 5: ball.setSize(ball.xSize, (int)(ball.ySize*1.5));;
+//			break;
+//		case 6: //Nothing
+//			break;
 		}
 	}
 }

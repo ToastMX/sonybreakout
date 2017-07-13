@@ -6,7 +6,7 @@ import javax.sound.sampled.Clip;
 public class Block {
 
 	int  xPos, yPos, xSize, ySize, state, row, column;
-	static double itemDropProp = 0.9;
+	static double itemDropProp = 0.3;
 	static File blop = new File("src/Sounds/BlockBlop.wav");
 
 	static Block[][] all;
@@ -23,9 +23,12 @@ public class Block {
 
 
 	public void hit(Ball ball){
+		
 		Game.playSound(blop);
+		
 		state--;
-		if(Math.random() < Block.itemDropProp){
+		
+		if(state == 0 && Math.random() < Block.itemDropProp){
 			Item.listAll.add(new Item(ball.xPos, yPos + ySize));
 		}
 	}
