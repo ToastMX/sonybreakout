@@ -36,7 +36,7 @@ public class Leveldesign {
 	int ballYSize;
 
 	int colors[][];
-//	Color[] state2 = new Co;
+	Color stateColors[];
 	
 	int startAnimationClock = 1000; // Frames startanimation
 	
@@ -64,10 +64,6 @@ public class Leveldesign {
 		
 	}
 	
-	public void setColors(){
-		
-	}
-	
 	
 	public static List<Leveldesign> listAll;
 	
@@ -80,12 +76,35 @@ public class Leveldesign {
 
 			for (Leveldesign l : listAll){
 				l.setDefaults();
+				l.setColors();
 			}
 
 		}catch(java.io.FileNotFoundException fff){
 			 System.out.println(
 			            "Unable to open file '" + 
 			            filepath + "'");        
+		}
+	}
+	
+	public void setColors(){
+		stateColors = new Color[4];
+		// default COlors
+		stateColors[0] = new Color (216,191,216); // BackgroundColor
+		stateColors[1] = Color.BLACK;
+		stateColors[2] = new Color (109, 7, 7);
+		stateColors[3] = new Color (226, 162, 11);
+		
+		if(colors != null){
+			for(int state=0; state<colors.length; state++){
+				if (colors[state] != null){
+					int r = colors[state][0]; 
+					int g = colors[state][1]; 
+					int b = colors[state][2]; 
+					stateColors[state] = new Color(r,g,b);
+					System.out.println(state);
+				}
+			}
+				
 		}
 	}
 	

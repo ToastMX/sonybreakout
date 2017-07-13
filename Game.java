@@ -25,7 +25,7 @@ public class Game extends JFrame implements Runnable, KeyListener{
 //	Block[][] blocks;
 	
 	Leveldesign level;
-	int levelnum = 2;
+	int levelnum = 0;
 	
 	public Game(String username) {
 		Collisions.referenceGame(this);
