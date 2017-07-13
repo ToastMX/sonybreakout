@@ -185,10 +185,14 @@ public class Game extends JFrame implements Runnable, KeyListener{
 		int x2edge = x - level.blockxStart;
 		int areaX = level.blockxSize + level.blockDistance;
 		int column = Math.floorDiv(x2edge, areaX);
+		if (x2edge - areaX * column > level.blockxSize)
+			return null;
 
 		int y2edge = y - level.blockyStart;
 		int areaY = level.blockySize + level.blockDistance;
 		int row = y2edge/areaY;
+		if (y2edge - areaY * row > level.blockySize)
+			return null;
 
 		try{
 			return Block.all[row][column];
