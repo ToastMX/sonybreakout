@@ -1,6 +1,6 @@
 public class Ball {
 
-	int xPos, yPos, xSize, ySize, dir = 1, vx, vy, vxst = 2, vyst = 4;
+	int xPos, yPos, xSize, ySize, dir = 1, vx, vy, vxst = 2, vyst = 2*vxst;
 												 //st = standard
 	
 	// Himmelsrichtungen Punkte Ball

@@ -23,7 +23,7 @@ public class Collisions{
 			if(g.leben == 0){
 				g.gameOver();
 			}else if(g.leben > 0){
-				Game.playSound(Game.LifeLost);
+				Game.playSound(g.LifeLost);
 				g.startNewRound();
 			}
 		}else if (g.ball.yPos <= 0)
@@ -100,25 +100,34 @@ public class Collisions{
 
 		// from bottom 
 		if (north != null && north.state != 0){
-			north.hit();
+			north.hit(g.ball);
 			g.ball.vy = Math.abs(g.ball.vy);
 			g.checkWinningGame();
 		}
 		// from top 
 		if (south != null && south.state != 0){
-			south.hit();
+			south.hit(g.ball);
 			g.ball.vy = Math.abs(g.ball.vy) * -1;
 			g.checkWinningGame();
 		}
 		// from right
 		if (west != null && west.state != 0){
-			west.hit();
+			west.hit(g.ball);
 			g.ball.vx = Math.abs(g.ball.vy);
+//			if(g.ball.vx > 0){
+//			g.ball.vx = Math.abs(g.ball.vy);
+//			}else if (g.ball.vx > 0 & g.ball.vy < 0){
+//				g.ball.vx = g.ball.vxst * -1;
+//				g.ball.vy = (g.ball.vyst/2);
+//			}else if (g.ball.vx > 0 & g.ball.vy > 0){
+//				g.ball.vx = g.ball.vxst * -1;
+//				g.ball.vy = -1 * (g.ball.vyst/2);
+//			}
 			g.checkWinningGame();
 		}
 		// from left
 		if (east != null && east.state != 0){
-			east.hit();
+			east.hit(g.ball);
 			g.ball.vx = Math.abs(g.ball.vx) * -1;
 			g.checkWinningGame();
 		}

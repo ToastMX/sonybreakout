@@ -21,8 +21,8 @@ public class Game extends JFrame implements Runnable, KeyListener{
 	Thread Thread;
 	JButton restart;
 	JLabel gameOver, lebenlabel;
-	static File GameOver = new File("src/Sounds/GameOverSoundanimation.wav");
-	static File LifeLost = new File("src/Sounds/LifeLost.wav");
+	File GameOver = new File("src/Sounds/GameOverSoundanimation.wav");
+	File LifeLost = new File("src/Sounds/LifeLost.wav");
 
 	int xSize = 1300, ySize = 800, xLoc = 300, yLoc = 50, leben;
 
