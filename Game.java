@@ -244,4 +244,8 @@ public class Game extends JFrame implements Runnable, KeyListener{
 		}
 	}
 	public void keyTyped(KeyEvent e) {}
+	
+	
+	
+	
 }

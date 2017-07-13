@@ -15,6 +15,7 @@ public class AdminFrame extends JFrame{
 	Game g;
 	JComboBox<String> chooseLevel;
 	JButton ballStop;
+	JToggleButton ballPredict;
 
 	public AdminFrame(Game game){
 		g = game;
@@ -44,6 +45,11 @@ public class AdminFrame extends JFrame{
 		BallStopListener bSL = new BallStopListener();
 		ballStop.addActionListener(bSL);
 
+		ballPredict = new JToggleButton("Balllinie einblenden");
+		add(ballPredict);
+		BallPredictListener bPL = new BallPredictListener();
+		ballPredict.addActionListener(bPL);
+
 		AdminKeyListener aKL = new AdminKeyListener();
 		g.addKeyListener(aKL);
 
@@ -60,7 +66,7 @@ public class AdminFrame extends JFrame{
 			}
 		}
 	}
-	
+
 	class BallStopListener implements ActionListener{
 		boolean stopped = false;
 		int saveX, saveY;
@@ -89,18 +95,39 @@ public class AdminFrame extends JFrame{
 	}
 
 	class AdminKeyListener implements KeyListener{
-		boolean released = true;
+		boolean released83 = true;
+		boolean released76 = true;
 		public void keyPressed(KeyEvent e) {
-			if (e.getKeyCode() == 83 & released) {
+			if (e.getKeyCode() == 83 & released83) {
 				ballStop.doClick();
-				released = false;
+				released83 = false;
+			}
+			if (e.getKeyCode() == 76 & released76){
+				ballPredict.doClick();
+				released76 = false;
 			}
 		}
 		public void keyReleased(KeyEvent e) {
-			if (e.getKeyCode() == 83 & !released) {
-				released = true;
+			if (e.getKeyCode() == 83 & !released83) {
+				released83 = true;
+			}
+			if (e.getKeyCode() == 76 & !released76){
+				released76 = true;
 			}
 		}
 		public void keyTyped(KeyEvent e) {}
+	}
+
+	class BallPredictListener implements ActionListener{
+
+		public void actionPerformed(ActionEvent aE) {
+			if(!ballPredict.isSelected()){
+				g.gamePaint.directionLine = true;
+				ballPredict.setText("Balllinie ausblenden");
+			}else{
+				g.gamePaint.directionLine = false;
+				ballPredict.setText("Balllinie einblenden");
+			}
+		}
 	}
 }
