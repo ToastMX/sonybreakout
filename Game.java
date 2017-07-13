@@ -110,7 +110,8 @@ public class Game extends JFrame implements Runnable, KeyListener{
 	}
 	
 	public void startNewGame() {
-
+		leben = 3;
+		
 		bar = new Bar(xSize/2 - 80, ySize - 60, gamePaint.getWidth());
 
 		Item.listAll.removeAll(Item.listAll);
