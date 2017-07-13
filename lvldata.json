@@ -1,7 +1,7 @@
 [
 	{
 	id: 0,
-	name: "beginner",
+	name: "Erstes Level",
 	blockySize: 300,
 	blockDistance: 2,
 	blockxStart: 100,
@@ -13,7 +13,7 @@
 	},
 	{
 	id: 1,
-	name: "beginner",
+	name: "Zweites Level",
 	blockySize: 30,
 	blockDistance: 2,
 	blockxStart: 100,
