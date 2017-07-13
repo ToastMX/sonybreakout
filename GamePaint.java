@@ -19,6 +19,13 @@ public class GamePaint extends JPanel{
 		
 		this.setBackground(game.level.stateColors[0]);
 		
+		// direction line
+		//	g.setColor(new Color(100,100,100));
+		//	g.drawLine(game.ball.xPos + game.ball.xSize/2, game.ball.yPos + game.ball.ySize/2,
+		//		       game.ball.xPos + game.ball.xSize/2 + 400* game.ball.vx, 
+		//		       game.ball.yPos + game.ball.ySize/2 + 400* game.ball.vy);
+		//		       g.setColor(Color.BLACK);
+		        
 		// Rectangles
 		for(int y = 0; y < Block.all.length; y++){
 			for(int x = 0; x < Block.all[y].length; x++){
@@ -30,6 +37,14 @@ public class GamePaint extends JPanel{
 				
 				g.setColor(game.level.stateColors[Block.all[y][x].state]);
 				
+//				Graphics2D g2d = (Graphics2D) g;
+//	            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+//	                    RenderingHints.VALUE_ANTIALIAS_ON);
+//				GradientPaint gp = new GradientPaint(0, Block.all[y][x].yPos + game.level.blockySize / 4,
+//	                    g.getColor(), 0, Block.all[y][x].yPos + game.level.blockySize,
+//	                    g.getColor().darker());
+//	            g2d.setPaint(gp);
+	            
 				g.fillRect(Block.all[y][x].xPos, 
 						Block.all[y][x].yPos, 
 						Block.all[y][x].xSize, 
@@ -39,12 +54,7 @@ public class GamePaint extends JPanel{
 				blockcount++;
 			}
 		}
-		// direction line
-//		g.setColor(new Color(100,100,100));
-//        g.drawLine(game.ball.xPos + game.ball.xSize/2, game.ball.yPos + game.ball.ySize/2,
-//        			game.ball.xPos + game.ball.xSize/2 + 400* game.ball.vx, 
-//        			game.ball.yPos + game.ball.ySize/2 + 400* game.ball.vy);
-//        g.setColor(Color.BLACK);
+		
 		//The Bar
 		g.fillRect(game.bar.xPos, game.bar.yPos, game.bar.xSize, game.bar.ySize);
 		//The Ball
