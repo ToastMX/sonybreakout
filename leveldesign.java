@@ -57,6 +57,9 @@ public class Leveldesign {
 		blockxSize 		= blockxSize != 0 		? blockxSize 	: 60;
 		blockySize 		= blockySize != 0 		? blockySize 	: 25;
 		blockDistance 	= blockDistance != 0 	? blockDistance : 6;
+		// blockdistance gets set to zero by setting it to -1 in json
+		blockDistance 	= blockDistance == -1 	? 0 : blockDistance;
+		
 		ballXSize		= ballXSize != 0 		? ballXSize 	: 26;
 		ballYSize		= ballYSize != 0 		? ballYSize 	: 26;
 		
