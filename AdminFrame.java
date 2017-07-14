@@ -7,23 +7,27 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class AdminFrame extends JFrame{
 
 	Game g;
 	Container c;
 	int xSize, ySize, xLoc, yLoc;
-	
+
 	JComboBox<String> chooseLevel;
 	JButton restart;
 	JToggleButton ballPredict, ballStop;
-	
+	JSlider ballSize;
+
 	LevelListener lL;
 	BallStopListener bSL;
 	BallPredictListener bPL;
 	RestartListener rL;
 	AdminKeyListener aKL;
-	
+	BallSizeListener bSiL;
+
 
 	public AdminFrame(Game game){
 		g = game;
@@ -37,9 +41,9 @@ public class AdminFrame extends JFrame{
 		setSize(xSize, ySize);
 		setTitle("Admin");
 		setLocation(xLoc, yLoc);
-
 		setLayout(new GridLayout(5,1));
 
+		//Buttons und Listener
 		chooseLevel = new JComboBox<String>();
 		add(chooseLevel);
 		for(Leveldesign i :Leveldesign.listAll){
@@ -53,19 +57,24 @@ public class AdminFrame extends JFrame{
 		bSL = new BallStopListener();
 		ballStop.addActionListener(bSL);
 
+		aKL = new AdminKeyListener();
+		g.addKeyListener(aKL);
+
 		ballPredict = new JToggleButton("Balllinie einblenden");
 		add(ballPredict);
 		bPL = new BallPredictListener();
 		ballPredict.addActionListener(bPL);
-		
+
 		restart = new JButton("Restart");
 		add(restart);
 		rL = new RestartListener();
 		restart.addActionListener(rL);
-		
 
-		aKL = new AdminKeyListener();
-		g.addKeyListener(aKL);
+		ballSize = new JSlider(1, g.gamePaint.getHeight(), g.ball.xSize);
+		add(ballSize);
+		bSiL = new BallSizeListener();
+		ballSize.addChangeListener(bSiL);
+
 		setVisible(true);
 	}
 
@@ -87,10 +96,10 @@ public class AdminFrame extends JFrame{
 			if(ballStop.isSelected() & (g.ball.vx != 0 | g.ball.vy != 0)){
 				saveX = g.ball.vx;
 				saveY = g.ball.vy;
-				
+
 				g.ball.vx = 0;
 				g.ball.vy = 0;
-				
+
 				g.gamePaint.adminlineDirX = saveX;
 				g.gamePaint.adminlineDirY = saveY;
 				g.gamePaint.adminStop = ballStop.isSelected();
@@ -101,7 +110,7 @@ public class AdminFrame extends JFrame{
 					& g.bar.upright.x >= g.ball.south.x 
 					& g.bar.y() <= g.ball.south.y 
 					& g.bar.y() + g.bar.ySize >= g.ball.south.y)){
-				
+
 				g.ball.vx = saveX;
 				g.ball.vy = saveY;
 				g.gamePaint.adminStop = ballStop.isSelected();
@@ -128,7 +137,7 @@ public class AdminFrame extends JFrame{
 				released82 = false;
 			}
 
-			
+
 		}
 		public void keyReleased(KeyEvent e) {
 			if (e.getKeyCode() == 83 & !released83) {
@@ -161,6 +170,14 @@ public class AdminFrame extends JFrame{
 
 		public void actionPerformed(ActionEvent arg0) {
 			g.startNewGame();
+		}
+	}
+
+	class BallSizeListener implements ChangeListener{
+
+		public void stateChanged(ChangeEvent e) {
+
+			g.ball.setSize(ballSize.getValue(), ballSize.getValue());
 		}
 	}
 }

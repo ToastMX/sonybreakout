@@ -159,7 +159,7 @@ public class Collisions{
 					& g.bar.y() <= i.downright.y 
 					& g.bar.y() + g.bar.ySize >= i.upright.y){
 
-				Collisions.effect(g.ball);
+				Collisions.effect(g.ball, i);
 				it.remove();
 			}
 			if (i.downleft.y < 0){
@@ -168,12 +168,10 @@ public class Collisions{
 		}
 	}
 	
-	public static void effect(Ball ball) {
-		
-		int effect = (int) (Math.random()*3 + 1);
+	public static void effect(Ball ball, Item item) {
 		
 		//TODO
-		switch(effect){
+		switch(item.effect){
 		case 1: 
 			g.leben++;
 			g.lebenlabel.setText("Leben: " + g.leben);

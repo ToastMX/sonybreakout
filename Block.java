@@ -27,7 +27,6 @@ public class Block {
 		Game.playSound(blop);
 		
 		state--;
-		
 		if(state == 0 && Math.random() < Block.itemDropProp){
 			Item.listAll.add(new Item(ball.xPos, yPos + ySize));
 		}
