@@ -113,7 +113,7 @@ public class Collisions{
 		// from right
 		if (west != null && west.state != 0){
 			west.hit(g.ball);
-			System.out.println("right side");
+//			System.out.println("right side");
 			//on edge from bottom
 			if(g.ball.vx == 0){
 				g.ball.vx = g.ball.vxst * 2;
@@ -126,14 +126,14 @@ public class Collisions{
 			// bugfix für doble hits, verschiebe ball a bit
 			int howfarin = west.xPos + west.xSize - g.ball.west.x;
 			g.ball.move(0, howfarin*10);
-			System.out.println("right edge" + howfarin);
+//			System.out.println("right edge" + howfarin);
 			
 			g.checkWinningGame();
 		}
 		// from left
 		if (east != null && east.state != 0){
 			east.hit(g.ball);
-			System.out.println("left side");
+//			System.out.println("left side");
 			//on edge from bottom
 			if(g.ball.vx == 0){
 				g.ball.vx = g.ball.vxst * -2;
@@ -145,7 +145,7 @@ public class Collisions{
 			// bugfix für doble hits, verschiebe ball a bit
 			int howfarin = east.xPos - g.ball.east.x;
 			g.ball.move(0, howfarin*10);
-			System.out.println("left edge" + howfarin);
+//			System.out.println("left edge" + howfarin);
 			
 			g.checkWinningGame();
 		}
@@ -159,12 +159,35 @@ public class Collisions{
 					& g.bar.y() <= i.downright.y 
 					& g.bar.y() + g.bar.ySize >= i.upright.y){
 
-				i.effect(g.ball);
+				Collisions.effect(g.ball);
 				it.remove();
 			}
 			if (i.downleft.y < 0){
 				it.remove();
 			}
+		}
+	}
+	
+	public static void effect(Ball ball) {
+		
+		int effect = (int) (Math.random()*3 + 1);
+		
+		//TODO
+		switch(effect){
+		case 1: 
+			g.leben++;
+			g.lebenlabel.setText("Leben: " + g.leben);
+			break;
+		case 2: ball.setSize((int)(ball.xSize*0.75), (int)(ball.ySize*0.75));
+			break;
+		case 3: ball.setSize((int)(ball.xSize*1.5), (int)(ball.ySize*1.5));
+			break;
+//		case 4: ball.setSize((int)(ball.xSize*1.5), ball.ySize);
+//			break;
+//		case 5: ball.setSize(ball.xSize, (int)(ball.ySize*1.5));;
+//			break;
+//		case 6: //Nothing
+//			break;
 		}
 	}
 }
