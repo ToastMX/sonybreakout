@@ -257,33 +257,4 @@ public class Game extends JFrame implements Runnable{
 		public void keyTyped(KeyEvent e) {}
 		
 	}
-	
-//	public void keyPressed(KeyEvent e) {
-//		if (e.getKeyCode() == 37) {
-//			bar.left = true;
-//			bar.right = false;
-//		}
-//		if (e.getKeyCode() == 39) {
-//			bar.left = false;
-//			bar.right = true;
-//		}
-//		if(e.getKeyCode() == 38 && bar.catchBall != null){
-//			bar.catchBall.vy = bar.catchBall.vyst;
-//			bar.catchBall = null;
-//		}
-//		if(e.getKeyCode() == KeyEvent.VK_SPACE & restart.isVisible()){
-//			restart.doClick();
-//		}
-//	}
-//
-//	public void keyReleased(KeyEvent e) {
-//		if (e.getKeyCode() == 37) {
-//			bar.left = false;
-//		}
-//		if (e.getKeyCode() == 39) {
-//			bar.right = false;
-//		}
-//	}
-//	public void keyTyped(KeyEvent e) {}
-	
 }
