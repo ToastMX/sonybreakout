@@ -1,5 +1,8 @@
+import java.util.ArrayList;
+
 public class Ball {
 
+	static ArrayList<Ball> listAll = new ArrayList<Ball>();
 	int xPos, yPos, xSize, ySize, dir = 1, vx, vy, vxst = 2, vyst = 2*vxst;
 												 //st = standard
 	
@@ -8,7 +11,8 @@ public class Ball {
 	
 
 	public Ball(int startXPos, int startYPos, int setXSize, int setYSize){
-
+		Ball.listAll.add(this);
+		
 		xPos = startXPos;
 		yPos = startYPos;
 		xSize = setXSize;
@@ -22,8 +26,31 @@ public class Ball {
 		west = new Point(xPos, yPos + ySize/2);
 	}
 	
+	public Ball(int startXPos, int startYPos, int setXSize, int setYSize, int vx, int vy){
+		Ball.listAll.add(this);
+		
+		xPos = startXPos;
+		yPos = startYPos;
+		xSize = setXSize;
+		ySize = setYSize;
+		this.vx = vx;
+		this.vy = vy;
+
+		north = new Point(xPos + xSize/2, yPos);
+		east = new Point (xPos + xSize, yPos + ySize/2);
+		south = new Point(xPos + xSize/2, yPos + ySize);
+		west = new Point(xPos, yPos + ySize/2);
+	}
+	
+	
 	public void move() {			
 		this.move(vx, vy);
+	}
+	
+	public static void moveall(){
+		for (Ball i : listAll){
+			i.move();
+		}
 	}
 	
 	public void move(int x, int y) {			

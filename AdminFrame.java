@@ -5,6 +5,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Hashtable;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -72,6 +73,17 @@ public class AdminFrame extends JFrame{
 
 		ballSize = new JSlider(1, g.gamePaint.getHeight(), g.ball.xSize);
 		add(ballSize);
+		ballSize.setMajorTickSpacing( (int) g.gamePaint.getHeight()/10);
+		ballSize.setMinorTickSpacing(1);
+		ballSize.setPaintTicks(true);
+		ballSize.setPaintLabels(true);
+		
+		Hashtable<Integer, JLabel> labelTable = new Hashtable<Integer, JLabel>();
+		labelTable.put( new Integer( 1 ), new JLabel("Min") );
+		labelTable.put( new Integer(g.gamePaint.getHeight() ), new JLabel("Max") );
+		labelTable.put( new Integer( g.gamePaint.getHeight()/2 ), new JLabel("BallSize" ));
+		ballSize.setLabelTable( labelTable );
+		
 		bSiL = new BallSizeListener();
 		ballSize.addChangeListener(bSiL);
 
@@ -157,11 +169,12 @@ public class AdminFrame extends JFrame{
 
 		public void actionPerformed(ActionEvent aE) {
 			if(!ballPredict.isSelected()){
-				g.gamePaint.directionLine = true;
-				ballPredict.setText("Balllinie ausblenden");
-			}else{
 				g.gamePaint.directionLine = false;
 				ballPredict.setText("Balllinie einblenden");
+			}else{
+				g.gamePaint.directionLine = true;
+				ballPredict.setText("Balllinie ausblenden");
+				
 			}
 		}
 	}

@@ -95,7 +95,8 @@ public class Game extends JFrame implements Runnable{
 			}
 			if  (i % 4 == 0){
 				Item.moveall();
-				ball.move();
+				Ball.moveall();
+				//ball.move();
 				Collisions.itemBarCollision();
 				Collisions.ballFrameCollision();
 				Collisions.ballBarCollision();
@@ -108,7 +109,6 @@ public class Game extends JFrame implements Runnable{
 		leben = 3;
 		bar = new Bar(xSize/2 - 80, ySize - 60, gamePaint.getWidth());
 
-		Item.listAll.removeAll(Item.listAll);
 		this.level = Leveldesign.listAll.get(this.levelnum);
 
 		// read lvl and build blocks
@@ -151,6 +151,9 @@ public class Game extends JFrame implements Runnable{
 	}
 
 	public void startNewRound(){
+		Ball.listAll.clear();
+		Item.listAll.clear();		
+		
 		ball = new Ball(
 				(int)(bar.xPos + (bar.xSize)/ 2) - 13, 
 				(int)(bar.yPos) - level.ballYSize,
@@ -161,10 +164,12 @@ public class Game extends JFrame implements Runnable{
 	}
 
 	public void gameOver(){
+		Ball.listAll.clear();
+		Item.listAll.clear();
 		Game.playSound(GameOver, -20.0f);
 		bar.vx = 0;
-		ball.vy = 0;
-		ball.vx = 0;
+//		Ball.listAll.get(0).vy = 0;
+//		Ball.listAll.get(0).vx = 0;
 		gameOver.setVisible(true);
 		restart.setVisible(true);
 		bar.left = false;

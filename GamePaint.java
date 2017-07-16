@@ -75,19 +75,29 @@ public class GamePaint extends JPanel{
 		//The Bar
 		g.fillRect(game.bar.xPos, game.bar.yPos, game.bar.xSize, game.bar.ySize);
 		//The Ball
-		try {
-			g.fillOval(game.ball.xPos, game.ball.yPos, game.ball.xSize, game.ball.ySize);	
-		}catch(NullPointerException a){}
+		for(Ball b: Ball.listAll){
+			
+			g.fillOval(b.xPos, b.yPos, b.xSize, b.ySize);
+//			try {
+//				g.fillOval(game.ball.xPos, game.ball.yPos, game.ball.xSize, game.ball.ySize);	
+//			}catch(NullPointerException a){}
+		}
 		//Items
 		
 		for(Item i: Item.listAll){
 			switch(i.effect){
-				case 1: g.setColor(Color.BLUE);
-					break;
-				case 2: g.setColor(Color.GREEN);
-					break;
-				case 3: g.setColor(Color.RED);
-				break;
+			case 1: g.setColor(Color.BLUE);
+			break;
+			case 2: g.setColor(Color.GREEN);
+			break;
+			case 3: g.setColor(Color.RED);
+			break;
+			case 4: g.setColor(Color.BLACK);
+			break;
+			case 5: g.setColor(Color.BLACK);
+			break;
+			case 6: g.setColor(Color.BLACK);
+			break;
 			}
 			g.fillRect(i.xPos, i.yPos, i.xSize, i.ySize);
 		}
